@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400;1,500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Brand theme — overridable at runtime from the admin dashboard's Site
+     Settings (see src/context/ThemeContext.jsx). Stored as "R G B" triplets
+     so Tailwind's opacity modifiers (bg-crimson/10, text-ink/70, ...) keep
+     working even though the base colors are now dynamic. Defaults are the
+     red / orange / gold / navy / white FGCK palette. */
+  --color-crimson-rgb: 198 40 40;       /* #C62828 */
+  --color-crimson-dark-rgb: 142 28 28;   /* #8E1C1C */
+  --color-crimson-light-rgb: 226 87 74;  /* #E2574A */
+  --color-orange-rgb: 232 106 28;        /* #E86A1C */
+  --color-gold-rgb: 239 168 10;          /* #EFA80A */
+  --color-gold-dark-rgb: 184 127 6;      /* #B87F06 */
+  --color-gold-light-rgb: 247 203 99;    /* #F7CB63 */
+  --color-navy-rgb: 11 31 58;            /* #0B1F3A */
+  --color-navy-light-rgb: 21 51 92;      /* #15335C */
+  --color-cream-rgb: 255 255 255;        /* #FFFFFF */
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  @apply bg-cream text-ink font-body antialiased;
+}
+
+::selection { @apply bg-gold/40 text-ink; }
+
+.rays {
+  background-image: repeating-conic-gradient(
+    from 0deg,
+    rgba(239, 168, 10, 0.18) 0deg 2deg,
+    transparent 2deg 12deg
+  );
+  mask-image: radial-gradient(circle, black 0%, transparent 72%);
+  -webkit-mask-image: radial-gradient(circle, black 0%, transparent 72%);
+}
+
+.eyebrow { @apply font-eyebrow uppercase tracking-[0.2em] text-xs font-bold; }
+.section-rule { @apply h-px w-16 bg-gold; }
+
+/* Rich text editor + rendered blog content share these rules so what the
+   admin sees while writing matches what visitors see on the published post. */
+.prose-editor,
+.prose-content {
+  line-height: 1.75;
+}
+.prose-editor:empty::before {
+  content: attr(data-placeholder);
+  color: rgb(var(--color-navy-rgb) / 0.35);
+}
+.prose-editor h1, .prose-content h1 { @apply font-display text-3xl font-extrabold text-ink mt-6 mb-3; }
+.prose-editor h2, .prose-content h2 { @apply font-display text-2xl font-extrabold text-ink mt-6 mb-3; }
+.prose-editor h3, .prose-content h3 { @apply font-display text-xl font-bold text-ink mt-5 mb-2; }
+.prose-editor h4, .prose-content h4 { @apply font-display text-lg font-bold text-ink mt-4 mb-2; }
+.prose-editor p, .prose-content p { @apply mb-4 text-ink/80; }
+.prose-editor ul, .prose-content ul { @apply mb-4 list-disc pl-6 text-ink/80; }
+.prose-editor ol, .prose-content ol { @apply mb-4 list-decimal pl-6 text-ink/80; }
+.prose-editor a, .prose-content a { @apply text-crimson underline underline-offset-2; }
+.prose-editor img, .prose-content img { @apply my-4 rounded-xl; }
+.prose-editor hr, .prose-content hr { @apply my-8 border-ink/15; }
+.prose-editor blockquote, .prose-content blockquote {
+  @apply my-4 border-l-4 border-gold bg-gold/5 px-5 py-3 italic text-ink/80;
+}
+.prose-editor .scripture-block, .prose-content .scripture-block {
+  @apply my-5 rounded-xl border-l-4 border-crimson bg-crimson/5 px-5 py-4 not-italic text-ink;
+}
+.prose-editor .scripture-block p, .prose-content .scripture-block p {
+  @apply font-display text-lg font-medium text-ink mb-1;
+}
+.prose-editor .scripture-block cite, .prose-content .scripture-block cite {
+  @apply block text-right text-xs font-bold uppercase tracking-wide text-crimson not-italic;
+}
+.prose-editor .callout-block, .prose-content .callout-block {
+  @apply my-5 rounded-xl bg-navy text-cream px-5 py-4;
+}
+.prose-editor .callout-block p, .prose-content .callout-block p {
+  @apply text-cream/90 mb-0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
