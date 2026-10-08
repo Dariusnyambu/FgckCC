@@ -80,7 +80,7 @@ export default function AdminBlogEditor() {
 
   const save = async (publishNow = false) => {
     if (!isSupabaseConfigured) {
-      setStatus({ ok: false, message: "Saving isn't available yet — the database connection hasn't been set up." });
+      setStatus({ ok: false, message: "Saving isn't available yet, the database connection hasn't been set up." });
       return;
     }
     setSaving(true);

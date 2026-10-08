@@ -24,13 +24,13 @@ export default function AdminLiveServiceSettings() {
   const onSave = async (e) => {
     e.preventDefault();
     if (!isSupabaseConfigured) {
-      setStatus({ ok: false, message: "Saving isn't available yet — the database connection hasn't been set up." });
+      setStatus({ ok: false, message: "Saving isn't available yet, the database connection hasn't been set up." });
       return;
     }
     setSaving(true);
     const { error } = await supabase.from("live_service_settings").update(form).eq("id", 1);
     setSaving(false);
-    setStatus(error ? { ok: false, message: error.message } : { ok: true, message: "Saved. The countdown recalculates automatically — nothing else to reset." });
+    setStatus(error ? { ok: false, message: error.message } : { ok: true, message: "Saved. The countdown recalculates automatically, nothing else to reset." });
   };
 
   if (!form) return null;
@@ -49,7 +49,7 @@ export default function AdminLiveServiceSettings() {
     <div>
       <p className="font-display text-2xl font-extrabold text-ink">Live Service Settings</p>
       <p className="mt-1 text-sm text-ink/60">
-        Set the recurring weekly schedule once — the public countdown and "Watch Live" button recalculate
+        Set the recurring weekly schedule once, the public countdown and "Watch Live" button recalculate
         automatically every week. No manual reset needed.
       </p>
 
@@ -117,7 +117,7 @@ export default function AdminLiveServiceSettings() {
 
         <aside>
           <p className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-ink/50">
-            <Radio size={14} /> Live Preview — currently {liveStatus}
+            <Radio size={14} /> Live Preview, currently {liveStatus}
           </p>
           <ServiceCountdown config={form} compact />
         </aside>

@@ -34,7 +34,7 @@ export default function AdminLogin() {
 
         {!isSupabaseConfigured && (
           <p className="mt-4 rounded-lg bg-gold/15 px-3 py-2 text-xs text-clay">
-            Supabase isn't connected yet — add your project keys to <code>.env.local</code> to enable login.
+            Supabase isn't connected yet, add your project keys to <code>.env.local</code> to enable login.
           </p>
         )}
 

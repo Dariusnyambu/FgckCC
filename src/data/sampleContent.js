@@ -11,7 +11,7 @@ export const siteSettings = {
   phone: "+254 700 000 000",
   email: "info@fgckchristcentre.org",
   service_summary: "Sundays · 10:00 AM · In person & Live Stream",
-  // Theme — editable from Admin → Site Settings. These are the defaults
+  // Theme, editable from Admin → Site Settings. These are the defaults
   // baked into index.css; saving new values here overrides them live.
   primary_color: "#C62828",
   primary_color_dark: "#8E1C1C",
@@ -29,9 +29,9 @@ export const siteSettings = {
   about_history: "",
   vision: "A generation transformed by the gospel, reflecting God's Kingdom image everywhere they go.",
   mission: "To preach Christ, disciple believers and raise servant leaders for the Kingdom.",
-  pastor_message: "Whoever you are, wherever you're from — you are welcome at Christ Centre.",
+  pastor_message: "Whoever you are, wherever you're from, you are welcome at Christ Centre.",
   core_values:
-    "The Gospel: Christ crucified and risen is the center of everything we do.\nKingdom Image: Every believer reflects God's character in word and deed.\nServanthood Leadership: We lead by serving, following the example of Christ.\nFamily: The church is a family — we grow, grieve and celebrate together.",
+    "The Gospel: Christ crucified and risen is the center of everything we do.\nKingdom Image: Every believer reflects God's character in word and deed.\nServanthood Leadership: We lead by serving, following the example of Christ.\nFamily: The church is a family. We grow, grieve and celebrate together.",
   beliefs: "",
   facebook_url: "",
   youtube_url: "",
@@ -171,7 +171,7 @@ export const blogPosts = [
     slug: "how-to-grow-in-faith",
     excerpt: "Practical, Scripture-rooted steps for a deeper walk with God.",
     content:
-      "<h2>Start with the Word</h2><p>Faith grows where the Word of God is planted daily. Begin each morning with a few verses rather than a chapter — consistency matters more than volume.</p><blockquote class=\"scripture-block\"><p>So then faith cometh by hearing, and hearing by the word of God.</p><cite>— Romans 10:17</cite></blockquote><h2>Build a Rhythm of Prayer</h2><p>Faith is sustained in conversation with God. Set a fixed time, even five minutes, and protect it.</p>",
+      "<h2>Start with the Word</h2><p>Faith grows where the Word of God is planted daily. Begin each morning with a few verses rather than a chapter, consistency matters more than volume.</p><blockquote class=\"scripture-block\"><p>So then faith cometh by hearing, and hearing by the word of God.</p><cite>Romans 10:17</cite></blockquote><h2>Build a Rhythm of Prayer</h2><p>Faith is sustained in conversation with God. Set a fixed time, even five minutes, and protect it.</p>",
     cover_image: null,
     category: "Faith",
     author: "Rev. Dr. John Kimani",

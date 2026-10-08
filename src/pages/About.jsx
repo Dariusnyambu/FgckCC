@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import SectionHeading from "../components/SectionHeading";
 import { Compass, Eye, Heart } from "lucide-react";
 import { getSiteSettings } from "../data/content";
-import { cleanHeadingText } from "../lib/headingText";
 
 function Paragraphs({ text, className = "" }) {
   return (text || "").split(/\n{2,}/).filter(Boolean).map((p, i) => (
@@ -30,7 +29,7 @@ export default function About() {
         <div className="rays pointer-events-none absolute inset-0" />
         <div className="relative mx-auto max-w-4xl px-5 text-center lg:px-8">
           <p className="eyebrow text-crimson">Our Story</p>
-          <h1 className="mt-3 font-display text-4xl font-extrabold text-ink sm:text-5xl">About {cleanHeadingText(s.church_name)}</h1>
+          <h1 className="mt-3 font-display text-4xl font-extrabold text-ink sm:text-5xl">About {s.church_name}</h1>
           <Paragraphs text={s.about_intro} className="mt-5 text-lg leading-relaxed text-ink/70" />
         </div>
       </section>

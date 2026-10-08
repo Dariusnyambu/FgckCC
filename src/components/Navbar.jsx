@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { Menu, X, Radio } from "lucide-react";
 import { useLiveStatus } from "../lib/useLiveStatus";
 
-// Primary header links — kept short so the header stays airy. Everything else
+// Primary header links, kept short so the header stays airy. Everything else
 // is reachable from the hero quick-links on the homepage, the footer, and the
 // full mobile menu.
 const MAIN_LINKS = [

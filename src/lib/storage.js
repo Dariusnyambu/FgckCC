@@ -1,6 +1,7 @@
 import { supabase, isSupabaseConfigured } from "./supabaseClient";
 
-export const MEDIA_BUCKET = "media";
+// Storage bucket used for all uploads. Override with VITE_STORAGE_BUCKET (e.g. "church-pics").
+export const MEDIA_BUCKET = import.meta.env.VITE_STORAGE_BUCKET || "church-pics";
 
 // Uploads a file to the public "media" Supabase Storage bucket, records it in
 // the `media` table (so it shows in the Media Library) and returns its URL.

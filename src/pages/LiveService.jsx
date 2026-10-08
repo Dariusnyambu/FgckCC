@@ -45,7 +45,7 @@ export default function LiveService() {
         ) : status === "live" ? (
           <div className="flex aspect-video flex-col items-center justify-center gap-4 rounded-2xl bg-ink text-cream">
             <Radio size={40} className="text-gold" />
-            <p className="font-display text-xl font-extrabold">We're live — stream link coming shortly</p>
+            <p className="font-display text-xl font-extrabold">We're live. Stream link coming shortly</p>
           </div>
         ) : (
           <ServiceCountdown config={config} />
@@ -54,7 +54,7 @@ export default function LiveService() {
 
       <p className="mt-6 text-center text-sm text-ink/60">
         Services stream automatically every {["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][config.day_of_week ?? 0]}{" "}
-        at {config.start_time} ({config.timezone}). No need to refresh — the countdown resets itself each week.
+        at {config.start_time} ({config.timezone}). No need to refresh. The countdown resets itself each week.
       </p>
     </section>
   );

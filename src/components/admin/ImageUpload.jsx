@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { Upload, Loader2 } from "lucide-react";
 import { uploadMedia } from "../../lib/storage";
 
-// URL field with an Upload button — pastes a link or uploads to Supabase Storage.
+// URL field with an Upload button, pastes a link or uploads to Supabase Storage.
 export default function ImageUpload({ value, onChange, folder }) {
   const input = useRef(null);
   const [busy, setBusy] = useState(false);

@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Plus, Trash2, Pencil, Loader2, Search, X, Eye, EyeOff } from "lucide-react";
+import { friendlyError } from "../../lib/errors";
 import { supabase, isSupabaseConfigured } from "../../lib/supabaseClient";
 import ImageUpload from "../../components/admin/ImageUpload";
 
-const NOT_CONNECTED = "Saving isn't available yet — the database connection hasn't been set up.";
+const NOT_CONNECTED = "Saving isn't available yet, the database connection hasn't been set up.";
 
 /**
  * Full list / search / add / edit / delete / publish-toggle screen for one table.
@@ -29,7 +30,7 @@ export default function CrudManager({ title, singular, table, fields, columns, e
     }
     setLoading(true);
     const { data, error } = await supabase.from(table).select("*").order(orderBy, { ascending: false });
-    if (error) setError(error.message);
+    if (error) setError(friendlyError(error.message));
     else setRows(data || []);
     setLoading(false);
   }
@@ -81,7 +82,7 @@ export default function CrudManager({ title, singular, table, fields, columns, e
       ? await supabase.from(table).update(payload).eq("id", editingId)
       : await supabase.from(table).insert(payload);
     setSaving(false);
-    if (error) return setError(error.message);
+    if (error) return setError(friendlyError(error.message));
     setShowForm(false);
     setEditingId(null);
     load();
@@ -91,14 +92,14 @@ export default function CrudManager({ title, singular, table, fields, columns, e
     if (!isSupabaseConfigured) return setError(NOT_CONNECTED);
     if (!confirm(`Delete this ${noun.toLowerCase()}? This cannot be undone.`)) return;
     const { error } = await supabase.from(table).delete().eq("id", id);
-    if (error) setError(error.message);
+    if (error) setError(friendlyError(error.message));
     else load();
   };
 
   const togglePublished = async (row) => {
     if (!isSupabaseConfigured) return setError(NOT_CONNECTED);
     const { error } = await supabase.from(table).update({ published: !row.published }).eq("id", row.id);
-    if (error) setError(error.message);
+    if (error) setError(friendlyError(error.message));
     else load();
   };
 
@@ -186,7 +187,7 @@ export default function CrudManager({ title, singular, table, fields, columns, e
             <tbody>
               {filtered.map((row) => (
                 <tr key={row.id} className="border-b border-ink/5 last:border-0">
-                  {displayColumns.map((c) => <td key={c} className="max-w-[260px] truncate px-5 py-3 text-ink/80">{String(row[c] ?? "—")}</td>)}
+                  {displayColumns.map((c) => <td key={c} className="max-w-[260px] truncate px-5 py-3 text-ink/80">{String(row[c] ?? "-")}</td>)}
                   {hasPublished && (
                     <td className="px-5 py-3">
                       <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${row.published ? "bg-forest/10 text-forest" : "bg-ink/10 text-ink/50"}`}>

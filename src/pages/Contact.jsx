@@ -65,7 +65,7 @@ export default function Contact() {
           </button>
           {status && (
             <p className={`text-sm ${status.ok ? "text-forest" : "text-crimson"}`}>
-              {status.ok ? "Message sent — we'll be in touch soon." : status.message}
+              {status.ok ? "Message sent. We'll be in touch soon." : status.message}
             </p>
           )}
         </form>

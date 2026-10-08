@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Upload, Loader2, Search, Copy, Trash2, FileText, Music, Film, Check } from "lucide-react";
+import { friendlyError } from "../../lib/errors";
 import { supabase, isSupabaseConfigured } from "../../lib/supabaseClient";
 import { uploadMedia, MEDIA_BUCKET } from "../../lib/storage";
 
@@ -11,7 +12,7 @@ const TYPES = [
   ["application", "Documents"],
 ];
 
-const fmtSize = (b) => (!b ? "—" : b > 1048576 ? `${(b / 1048576).toFixed(1)} MB` : `${Math.round(b / 1024)} KB`);
+const fmtSize = (b) => (!b ? "-" : b > 1048576 ? `${(b / 1048576).toFixed(1)} MB` : `${Math.round(b / 1024)} KB`);
 
 export default function AdminMedia() {
   const [items, setItems] = useState([]);
@@ -27,7 +28,7 @@ export default function AdminMedia() {
     if (!isSupabaseConfigured) return setLoading(false);
     setLoading(true);
     const { data, error } = await supabase.from("media").select("*").order("created_at", { ascending: false });
-    if (error) setError(error.message);
+    if (error) setError(friendlyError(error.message));
     else setItems(data || []);
     setLoading(false);
   }
@@ -54,7 +55,7 @@ export default function AdminMedia() {
     const path = item.file_url.split(marker)[1];
     if (path) await supabase.storage.from(MEDIA_BUCKET).remove([decodeURIComponent(path)]);
     const { error } = await supabase.from("media").delete().eq("id", item.id);
-    if (error) setError(error.message);
+    if (error) setError(friendlyError(error.message));
     else setItems((r) => r.filter((x) => x.id !== item.id));
   };
 
@@ -78,10 +79,10 @@ export default function AdminMedia() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="font-display text-2xl font-extrabold text-ink">Media Library</p>
-          <p className="mt-1 text-sm text-ink/60">Upload once, reuse anywhere — copy a file's link into any page or post.</p>
+          <p className="mt-1 text-sm text-ink/60">Upload once, reuse anywhere, copy a file's link into any page or post.</p>
         </div>
         <button
-          onClick={() => (isSupabaseConfigured ? input.current?.click() : setError("Uploading isn't available yet — the database connection hasn't been set up."))}
+          onClick={() => (isSupabaseConfigured ? input.current?.click() : setError("Uploading isn't available yet, the database connection hasn't been set up."))}
           disabled={uploading}
           className="flex items-center gap-2 rounded-full bg-crimson px-5 py-2.5 text-sm font-bold text-cream hover:bg-crimson-dark disabled:opacity-60"
         >

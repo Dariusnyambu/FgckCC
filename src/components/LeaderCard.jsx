@@ -1,5 +1,3 @@
-import { cleanHeadingText } from "../lib/headingText";
-
 export default function LeaderCard({ leader, featured = false }) {
   return (
     <div className={`group overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-ink/5 transition hover:shadow-md ${featured ? "sm:col-span-2" : ""}`}>
@@ -12,7 +10,7 @@ export default function LeaderCard({ leader, featured = false }) {
       </div>
       <div className="p-5">
         <p className="eyebrow text-crimson">{leader.position}</p>
-        <h3 className="mt-1 font-display text-xl font-extrabold text-ink">{cleanHeadingText(leader.name)}</h3>
+        <h3 className="mt-1 font-display text-xl font-extrabold text-ink">{leader.name}</h3>
         {leader.bio && <p className="mt-2 text-sm leading-relaxed text-ink/70">{leader.bio}</p>}
       </div>
     </div>

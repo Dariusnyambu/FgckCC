@@ -5,9 +5,9 @@ const ThemeContext = createContext(null);
 
 // Maps site_settings columns to the CSS custom properties defined in
 // index.css. Changing any of these in the admin Site Settings screen and
-// saving updates the live site instantly — no redeploy needed. The CSS vars
+// saving updates the live site instantly, no redeploy needed. The CSS vars
 // store "R G B" triplets (so Tailwind's opacity modifiers keep working),
-// while the admin form works in familiar hex — convert on the way in.
+// while the admin form works in familiar hex, convert on the way in.
 const VAR_MAP = {
   primary_color: "--color-crimson-rgb",
   primary_color_dark: "--color-crimson-dark-rgb",

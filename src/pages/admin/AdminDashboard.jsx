@@ -55,7 +55,7 @@ export default function AdminDashboard() {
   return (
     <div>
       <p className="font-display text-2xl font-extrabold text-ink">Dashboard</p>
-      <p className="mt-1 text-sm text-ink/60">Welcome back — here's what's happening on your website.</p>
+      <p className="mt-1 text-sm text-ink/60">Welcome back, here's what's happening on your website.</p>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {cards.map(({ label, value, sub, icon: Icon, to, alert }) => (

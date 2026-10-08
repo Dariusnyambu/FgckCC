@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Loader2, Search, Trash2, Archive, CheckCheck, Mail, MailOpen, HeartHandshake, EyeOff } from "lucide-react";
+import { friendlyError } from "../../lib/errors";
 import { supabase, isSupabaseConfigured } from "../../lib/supabaseClient";
 
 /**
@@ -19,7 +20,7 @@ export default function InboxManager({ title, table, statuses, actions, subtitle
     if (!isSupabaseConfigured) return setLoading(false);
     setLoading(true);
     const { data, error } = await supabase.from(table).select("*").order("created_at", { ascending: false });
-    if (error) setError(error.message);
+    if (error) setError(friendlyError(error.message));
     else setRows(data || []);
     setLoading(false);
   }
@@ -27,14 +28,14 @@ export default function InboxManager({ title, table, statuses, actions, subtitle
 
   const setStatus = async (id, status) => {
     const { error } = await supabase.from(table).update({ status }).eq("id", id);
-    if (error) setError(error.message);
+    if (error) setError(friendlyError(error.message));
     else setRows((r) => r.map((x) => (x.id === id ? { ...x, status } : x)));
   };
 
   const remove = async (id) => {
     if (!confirm("Permanently delete this message? This cannot be undone.")) return;
     const { error } = await supabase.from(table).delete().eq("id", id);
-    if (error) setError(error.message);
+    if (error) setError(friendlyError(error.message));
     else setRows((r) => r.filter((x) => x.id !== id));
   };
 

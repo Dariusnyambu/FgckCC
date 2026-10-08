@@ -3,7 +3,7 @@ import * as sample from "./sampleContent";
 
 // Every function below tries Supabase first (once connected + populated by
 // the admin dashboard) and quietly falls back to local sample content
-// otherwise. Components never need to know which source they got — this is
+// otherwise. Components never need to know which source they got, this is
 // the single seam to swap when the backend is wired up.
 
 async function fromTable(table, { order, filterPublished = true } = {}) {

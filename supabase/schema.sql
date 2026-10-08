@@ -1,4 +1,4 @@
--- FGCK Christ Centre — Supabase schema
+-- FGCK Christ Centre, Supabase schema
 -- Run in the Supabase SQL editor. Adjust as the CMS grows.
 
 create extension if not exists "uuid-ossp";
@@ -50,7 +50,7 @@ create table if not exists site_settings (
   show_sermons boolean not null default true,
   show_events boolean not null default true,
   show_cta boolean not null default true,
-  -- Theme colors — editable from Admin > Site Settings, applied live via
+  -- Theme colors, editable from Admin > Site Settings, applied live via
   -- CSS custom properties (see src/context/ThemeContext.jsx).
   primary_color text not null default '#C62828',
   primary_color_dark text not null default '#8E1C1C',

@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 
-// Public "anon" key only — this is safe for the frontend because Row Level
+// Public "anon" key only, this is safe for the frontend because Row Level
 // Security policies (see /supabase/schema.sql) control what it can read or
 // write. The service-role key must NEVER be used or imported here.
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -15,7 +15,7 @@ export const supabase = isSupabaseConfigured
 if (!isSupabaseConfigured && import.meta.env.DEV) {
   // eslint-disable-next-line no-console
   console.warn(
-    "[FGCK] Supabase env vars are not set — the site is running on local sample content. " +
+    "[FGCK] Supabase env vars are not set, the site is running on local sample content. " +
       "Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to .env.local to connect the CMS."
   );
 }

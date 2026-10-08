@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 :root {
-  /* Brand theme — overridable at runtime from the admin dashboard's Site
+  /* Brand theme, overridable at runtime from the admin dashboard's Site
      Settings (see src/context/ThemeContext.jsx). Stored as "R G B" triplets
      so Tailwind's opacity modifiers (bg-crimson/10, text-ink/70, ...) keep
      working even though the base colors are now dynamic. Defaults are the

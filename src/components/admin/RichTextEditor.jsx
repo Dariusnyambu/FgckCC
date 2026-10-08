@@ -43,7 +43,7 @@ function ToolbarButton({ onClick, active, title, children }) {
 
 /**
  * A self-contained WYSIWYG editor for blog content. Uses contentEditable +
- * document.execCommand — intentionally simple and dependency-free rather
+ * document.execCommand, intentionally simple and dependency-free rather
  * than pulling in a full editor framework, while still covering every
  * format the brief calls for (headings, lists, blockquote, scripture
  * block, divider, links, images, alignment).
@@ -55,7 +55,7 @@ export default function RichTextEditor({ value, onChange, placeholder = "Start w
   const [heading, setHeading] = useState("P");
 
   // Only push `value` into the DOM when it changes from *outside* (e.g.
-  // loading an existing post) — never on every keystroke, or the cursor
+  // loading an existing post), never on every keystroke, or the cursor
   // jumps to the start on each render.
   useEffect(() => {
     if (ref.current && value !== undefined && ref.current.innerHTML !== value) {
@@ -97,7 +97,7 @@ export default function RichTextEditor({ value, onChange, placeholder = "Start w
     document.execCommand(
       "insertHTML",
       false,
-      `<blockquote class="scripture-block"><p>${text}</p>${ref_ ? `<cite>— ${ref_}</cite>` : ""}</blockquote><p><br></p>`
+      `<blockquote class="scripture-block"><p>${text}</p>${ref_ ? `<cite>${ref_}</cite>` : ""}</blockquote><p><br></p>`
     );
     ref.current.focus();
     emit();

@@ -70,13 +70,13 @@ export default function AdminBlogList() {
               {posts.map((p) => (
                 <tr key={p.id} className="border-b border-ink/5 last:border-0">
                   <td className="px-5 py-3 font-medium text-ink">{p.title}</td>
-                  <td className="px-5 py-3 text-ink/60">{p.category || "—"}</td>
+                  <td className="px-5 py-3 text-ink/60">{p.category || "-"}</td>
                   <td className="px-5 py-3">
                     <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${STATUS_STYLES[p.status] || STATUS_STYLES.draft}`}>
                       {p.status || "draft"}
                     </span>
                   </td>
-                  <td className="px-5 py-3 text-ink/60">{p.published_at || "—"}</td>
+                  <td className="px-5 py-3 text-ink/60">{p.published_at || "-"}</td>
                   <td className="px-5 py-3">
                     <div className="flex items-center justify-end gap-3">
                       <Link to={`/admin/blogs/${p.id}`} className="text-ink/40 hover:text-crimson" aria-label="Edit">

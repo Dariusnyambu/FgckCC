@@ -42,7 +42,7 @@ export default function AdminSiteSettings() {
   const onSave = async (e) => {
     e.preventDefault();
     if (!isSupabaseConfigured) {
-      setStatus({ ok: false, message: "Saving isn't available yet — the database connection hasn't been set up." });
+      setStatus({ ok: false, message: "Saving isn't available yet, the database connection hasn't been set up." });
       return;
     }
     setSaving(true);
@@ -50,7 +50,7 @@ export default function AdminSiteSettings() {
     const payload = Object.fromEntries(keys.map((k) => [k, form[k]]));
     const { error } = await supabase.from("site_settings").upsert({ ...payload, id: 1 });
     setSaving(false);
-    setStatus(error ? { ok: false, message: error.message } : { ok: true, message: "Saved — changes are live on the public site." });
+    setStatus(error ? { ok: false, message: error.message } : { ok: true, message: "Saved, changes are live on the public site." });
   };
 
   if (!form) return null;

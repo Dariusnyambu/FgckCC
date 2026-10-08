@@ -3,7 +3,7 @@ import { Hammer } from "lucide-react";
 export default function AdminPlaceholder({ title, table }) {
   return (
     <div>
-      <p className="font-display text-2xl font-semibold text-ink">{title}</p>
+      <p className="font-display text-2xl font-extrabold text-ink">{title}</p>
       <div className="mt-8 flex flex-col items-center justify-center rounded-2xl border border-dashed border-ink/20 bg-white py-20 text-center">
         <Hammer className="text-ink/30" size={32} />
         <p className="mt-4 max-w-sm text-sm text-ink/60">

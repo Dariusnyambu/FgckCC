@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ChevronLeft, Clock, Share2 } from "lucide-react";
 import { getBlogPostBySlug } from "../data/content";
-import { cleanHeadingHtml, cleanHeadingText } from "../lib/headingText";
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -43,7 +42,7 @@ export default function BlogPost() {
       </Link>
 
       <p className="eyebrow mt-6 text-crimson">{post.category}</p>
-      <h1 className="mt-2 font-display text-3xl font-extrabold leading-tight text-ink sm:text-4xl">{cleanHeadingText(post.title)}</h1>
+      <h1 className="mt-2 font-display text-3xl font-extrabold leading-tight text-ink sm:text-4xl">{post.title}</h1>
 
       <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-ink/60">
         <span>{post.author}</span>
@@ -61,7 +60,7 @@ export default function BlogPost() {
         <img src={post.cover_image} alt={post.title} className="mt-8 aspect-video w-full rounded-2xl object-cover" />
       )}
 
-      <div className="prose-content mt-8" dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(post.content || "") }} />
+      <div className="prose-content mt-8" dangerouslySetInnerHTML={{ __html: post.content || "" }} />
 
       <div className="mt-10 flex items-center gap-3 border-t border-ink/10 pt-6">
         <span className="text-xs font-semibold uppercase tracking-wide text-ink/50">Share</span>

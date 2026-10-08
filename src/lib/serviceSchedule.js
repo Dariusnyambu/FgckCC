@@ -1,6 +1,6 @@
 // Computes the next occurrence of a recurring weekly service from a
 // {day_of_week, start_time, end_time, timezone} config, so the admin never
-// has to manually reset the countdown — it always recalculates from "now".
+// has to manually reset the countdown, it always recalculates from "now".
 //
 // day_of_week: 0 (Sunday) – 6 (Saturday), matches JS Date#getDay()
 // start_time / end_time: "HH:MM" 24h

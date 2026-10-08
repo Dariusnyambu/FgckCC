@@ -49,7 +49,6 @@ export default function Home() {
         <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 lg:grid-cols-2 lg:items-center lg:px-8 lg:py-24">
           <div className="relative">
             <div className="mb-5 flex items-center gap-3">
-              <span className="section-rule" />
               <p className="eyebrow text-crimson">Welcome Home</p>
             </div>
             <h1 className="font-display text-4xl font-extrabold leading-[1.1] text-ink sm:text-5xl lg:text-6xl">
@@ -58,7 +57,7 @@ export default function Home() {
             </h1>
             <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink/70">
               {settings?.hero_text ||
-                "A place where the Power of the Gospel shapes the Kingdom Image in every believer through Servanthood Leadership. Come as you are — you belong here."}
+                "A place where the Power of the Gospel shapes the Kingdom Image in every believer through Servanthood Leadership. Come as you are. You belong here."}
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
@@ -105,7 +104,7 @@ export default function Home() {
             <SectionHeading
               eyebrow="Who We Are"
               title="A church family rooted in the gospel, grown in servanthood."
-              description="FGCK Christ Centre exists to raise a community that reflects the image of God's Kingdom — through worship, discipleship and service to our city."
+              description="FGCK Christ Centre exists to raise a community that reflects the image of God's Kingdom, through worship, discipleship and service to our city."
             />
             <Link to="/about" className="mt-6 inline-flex items-center gap-2 text-sm font-extrabold text-crimson hover:text-crimson-dark">
               Read our full story <ArrowRight size={16} />
@@ -221,7 +220,7 @@ export default function Home() {
           <div className="rounded-2xl bg-gold/15 p-8">
             <HeartHandshake className="text-crimson" size={28} />
             <p className="mt-4 font-display text-2xl font-extrabold text-ink">Need Prayer?</p>
-            <p className="mt-2 text-sm text-ink/70">Our prayer team is here for you — submit a request in confidence.</p>
+            <p className="mt-2 text-sm text-ink/70">Our prayer team is here for you. Submit a request in confidence.</p>
             <Link to="/prayer" className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold text-crimson hover:text-crimson-dark">
               Request Prayer <ArrowRight size={16} />
             </Link>

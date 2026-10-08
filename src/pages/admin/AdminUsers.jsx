@@ -52,7 +52,7 @@ export default function AdminUsers() {
                 const me = u.id === session?.user?.id;
                 return (
                   <tr key={u.id} className="border-b border-ink/5 last:border-0">
-                    <td className="px-5 py-3 font-medium text-ink">{u.full_name || "—"} {me && <span className="ml-1 rounded-full bg-gold/20 px-2 py-0.5 text-[10px] font-bold text-clay">You</span>}</td>
+                    <td className="px-5 py-3 font-medium text-ink">{u.full_name || "-"} {me && <span className="ml-1 rounded-full bg-gold/20 px-2 py-0.5 text-[10px] font-bold text-clay">You</span>}</td>
                     <td className="px-5 py-3">
                       <select value={u.role} disabled={me} onChange={(e) => changeRole(u.id, e.target.value)} className="rounded-lg border border-ink/15 px-2 py-1.5 text-sm outline-none focus:border-crimson disabled:opacity-60">
                         <option value="admin">Admin</option>

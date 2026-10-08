@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
+import { friendlyError } from "../../lib/errors";
 import { supabase, isSupabaseConfigured } from "../../lib/supabaseClient";
 import ImageUpload from "../../components/admin/ImageUpload";
 
@@ -29,15 +30,15 @@ export default function SettingsForm({ title, description, table, defaults = {},
 
   const onSave = async (e) => {
     e.preventDefault();
-    if (!isSupabaseConfigured) return setStatus({ ok: false, message: "Saving isn't available yet — the database connection hasn't been set up." });
+    if (!isSupabaseConfigured) return setStatus({ ok: false, message: "Saving isn't available yet, the database connection hasn't been set up." });
     setSaving(true);
     setStatus(null);
     const payload = { ...form, id: 1 };
     delete payload.updated_at;
     const { error } = await supabase.from(table).upsert(payload);
     setSaving(false);
-    if (error) return setStatus({ ok: false, message: error.message });
-    setStatus({ ok: true, message: "Saved — changes are live on the website." });
+    if (error) return setStatus({ ok: false, message: friendlyError(error.message) });
+    setStatus({ ok: true, message: "Saved, changes are live on the website." });
     onSaved?.(payload);
   };
 
