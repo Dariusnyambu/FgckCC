@@ -40,6 +40,20 @@ npm run dev
 The site runs immediately on local sample content — no Supabase project is
 required to see the design.
 
+## Deploy to Vercel
+
+Import the GitHub repository into Vercel and keep the detected Vite defaults:
+the build command is `npm run build` and the output directory is `dist`.
+`vercel.json` routes page requests through the app so direct visits and refreshes
+on nested routes (such as `/blog/my-post` and `/admin/login`) work.
+
+To enable the CMS and admin login in production, add `VITE_SUPABASE_URL` and
+`VITE_SUPABASE_ANON_KEY` under Vercel Project Settings → Environment Variables
+for the environments you deploy, then redeploy. Without them, the public site
+uses local sample content and CMS/admin features remain disconnected. Only use
+the public anon key in these frontend variables; never expose the service-role
+key.
+
 ## Connect Supabase (to enable the CMS + admin login)
 
 1. Create a project at supabase.com.
