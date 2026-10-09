@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getSiteSettings } from "../data/content";
-import { Share2, Video, Camera, MessageCircle, MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail, Navigation } from "lucide-react";
+import { SocialRow } from "./SocialIcons";
 
 export default function Footer() {
   const year = new Date().getFullYear();
   const [s, setS] = useState(null);
   useEffect(() => { getSiteSettings().then(setS); }, []);
-  const socials = [
-    { Icon: Share2, label: "Facebook", href: s?.facebook_url },
-    { Icon: Video, label: "YouTube", href: s?.youtube_url },
-    { Icon: Camera, label: "Instagram", href: s?.instagram_url },
-    { Icon: MessageCircle, label: "WhatsApp", href: s?.whatsapp_number ? `https://wa.me/${s.whatsapp_number}` : "" },
-  ].filter((x) => x.href);
+
   return (
     <footer className="bg-ink text-cream/90">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-16 lg:grid-cols-4 lg:px-8">
@@ -24,20 +20,7 @@ export default function Footer() {
           <p className="mt-4 text-sm text-cream/60">
             Power of the Gospel. Kingdom Image. Servanthood Leadership.
           </p>
-          <div className="mt-5 flex gap-3">
-            {socials.map(({ Icon, label, href }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-full border border-cream/20 p-2 text-cream/70 transition hover:border-gold hover:text-gold"
-                aria-label={label}
-              >
-                <Icon size={16} />
-              </a>
-            ))}
-          </div>
+          <SocialRow settings={s} tone="light" className="mt-5" />
         </div>
 
         <div>
@@ -67,7 +50,14 @@ export default function Footer() {
           <p className="eyebrow text-gold">Visit</p>
           <ul className="mt-4 space-y-3 text-sm text-cream/70">
             <li className="flex items-start gap-2"><MapPin size={16} className="mt-0.5 shrink-0" /> {s?.address || "FGCK Christ Centre, Nairobi, Kenya"}</li>
-            <li className="flex items-center gap-2"><Phone size={16} className="shrink-0" /> {s?.phone || "+254 700 000 000"}</li>
+            <li className="flex items-center gap-2"><Phone size={16} className="shrink-0" /> <a href={`tel:${(s?.phone || "").replace(/[^+\d]/g, "")}`} className="hover:text-gold">{s?.phone}</a></li>
+            {s?.map_url && (
+              <li>
+                <a href={s.map_url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-cream/20 px-4 py-2 text-xs font-bold text-cream hover:border-gold hover:text-gold">
+                  <Navigation size={14} /> Get Directions
+                </a>
+              </li>
+            )}
             <li className="flex items-center gap-2"><Mail size={16} className="shrink-0" /> {s?.email || "info@fgckchristcentre.org"}</li>
           </ul>
         </div>

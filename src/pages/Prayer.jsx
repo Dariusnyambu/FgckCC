@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { HeartHandshake } from "lucide-react";
+import { useSeo } from "../lib/useSeo";
 import SectionHeading from "../components/SectionHeading";
 import { submitPrayerRequest } from "../data/content";
 
 export default function Prayer() {
+  useSeo({ title: 'Prayer Requests', description: 'Submit a prayer request to the FGCK Christ Centre prayer team. Requests are handled in confidence.' });
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "", anonymous: false });
   const [status, setStatus] = useState(null);
   const [submitting, setSubmitting] = useState(false);

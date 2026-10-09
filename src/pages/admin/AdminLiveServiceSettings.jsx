@@ -3,6 +3,7 @@ import { AlertCircle, Radio } from "lucide-react";
 import { supabase, isSupabaseConfigured } from "../../lib/supabaseClient";
 import { getLiveServiceSettings } from "../../data/content";
 import { getServiceOccurrence } from "../../lib/serviceSchedule";
+import { youtubeId, youtubeThumb } from "../../lib/youtube";
 import ServiceCountdown from "../../components/ServiceCountdown";
 
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -88,13 +89,15 @@ export default function AdminLiveServiceSettings() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-ink/70">Streaming URL (embeddable)</label>
+            <label className="mb-1.5 block text-sm font-medium text-ink/70">Other stream link (optional)</label>
             <input value={form.streaming_url || ""} onChange={update("streaming_url")} className="w-full rounded-xl border border-ink/15 px-4 py-2.5 text-sm outline-none focus:border-crimson" placeholder="https://..." />
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-ink/70">YouTube Live URL</label>
-              <input value={form.youtube_url || ""} onChange={update("youtube_url")} className="w-full rounded-xl border border-ink/15 px-4 py-2.5 text-sm outline-none focus:border-crimson" />
+              <label className="mb-1.5 block text-sm font-medium text-ink/70">YouTube link (live or recorded service)</label>
+              <input value={form.youtube_url || ""} onChange={update("youtube_url")} placeholder="https://www.youtube.com/watch?v=..." className="w-full rounded-xl border border-ink/15 px-4 py-2.5 text-sm outline-none focus:border-crimson" />
+              <p className="mt-1 text-xs text-ink/50">Paste the video link each week. It plays on the Live Service page and homepage with its YouTube thumbnail.</p>
+              {youtubeId(form.youtube_url) && <img src={youtubeThumb(youtubeId(form.youtube_url))} alt="Thumbnail preview" className="mt-2 aspect-video w-full max-w-xs rounded-lg object-cover" />}
             </div>
             <div>
               <label className="mb-1.5 block text-sm font-medium text-ink/70">Facebook Live URL</label>

@@ -59,6 +59,31 @@ export const SETTINGS_PAGES = [
     ],
   },
   {
+    path: "contact",
+    title: "Contact & Location",
+    description: "Phone, email, address and the map shown on the Contact page and in the footer.",
+    table: "site_settings",
+    defaults: siteDefaults,
+    sections: [
+      {
+        title: "Contact Details",
+        fields: [
+          { name: "phone", label: "Phone" },
+          { name: "email", label: "Email" },
+          { name: "address", label: "Address" },
+          { name: "office_hours", label: "Service / Office Hours" },
+        ],
+      },
+      {
+        title: "Directions",
+        fields: [
+          { name: "map_url", label: "Google Maps Link (Get Directions)", hint: "In Google Maps tap Share, then copy the link." },
+          { name: "map_embed_url", label: "Map Embed Link", hint: "In Google Maps: Share > Embed a map > copy the src=\"...\" address." },
+        ],
+      },
+    ],
+  },
+  {
     path: "social",
     title: "Social Media",
     description: "Links shown in the website footer and contact page.",

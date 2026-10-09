@@ -1,4 +1,4 @@
-# FGCK Christ Centre | Website + CMS (starter)
+# FGCK Christ Centre, Website + CMS (starter)
 
 A React + Vite + Tailwind + Supabase church website for FGCK Christ Centre,
 built CMS-first: every public page reads through `src/data/content.js`, which
@@ -8,24 +8,24 @@ backend is connected.
 
 ## What's included
 
-- **Public site** — Home, About, Leadership (with Rev. Dr. John Kimani and
+- **Public site**, Home, About, Leadership (with Rev. Dr. John Kimani and
   Pst. Jane Kimani, plus your logo), Departments, Sermons, Live Service
   (self-resetting weekly countdown -> auto "WE ARE LIVE"), Events, Gallery,
   Blog, Prayer, Giving, Contact.
-- **Admin shell** — Supabase-auth-protected `/admin` dashboard with the full
+- **Admin shell**, Supabase-auth-protected `/admin` dashboard with the full
   sidebar structure from the brief, stat cards, and a placeholder screen per
   content type that names the exact table it will manage.
-- **Database** — complete Postgres schema with Row Level Security in
+- **Database**, complete Postgres schema with Row Level Security in
   `supabase/schema.sql` (public reads published content only; only rows in
   `profiles` can write).
-- **Design system** — a distinct visual identity pulled from your logo
+- **Design system**, a distinct visual identity pulled from your logo
   (crimson, gold, warm cream, ink), Fraunces + Inter type pairing, Lucide
   icons throughout.
 
 ## What's a placeholder right now
 
 The admin dashboard's individual CRUD screens (blog editor, gallery manager,
-event editor, etc.) are stubbed — they show which Supabase table they'll
+event editor, etc.) are stubbed, they show which Supabase table they'll
 read/write but don't yet have working forms. The public site and the data
 layer are fully wired for them, so building each admin screen is additive
 work, not a redesign.
@@ -37,22 +37,8 @@ npm install
 npm run dev
 ```
 
-The site runs immediately on local sample content — no Supabase project is
+The site runs immediately on local sample content, no Supabase project is
 required to see the design.
-
-## Deploy to Vercel
-
-Import the GitHub repository into Vercel and keep the detected Vite defaults:
-the build command is `npm run build` and the output directory is `dist`.
-`vercel.json` routes page requests through the app so direct visits and refreshes
-on nested routes (such as `/blog/my-post` and `/admin/login`) work.
-
-To enable the CMS and admin login in production, add `VITE_SUPABASE_URL` and
-`VITE_SUPABASE_ANON_KEY` under Vercel Project Settings → Environment Variables
-for the environments you deploy, then redeploy. Without them, the public site
-uses local sample content and CMS/admin features remain disconnected. Only use
-the public anon key in these frontend variables; never expose the service-role
-key.
 
 ## Connect Supabase (to enable the CMS + admin login)
 
@@ -68,7 +54,7 @@ key.
    insert into profiles (id, full_name, role)
    values ('<the user auth.users id>', 'Your Name', 'admin');
    ```
-6. Restart `npm run dev` — the admin dashboard at `/admin/login` will now
+6. Restart `npm run dev`, the admin dashboard at `/admin/login` will now
    accept that email/password, and public pages will read from Supabase
    instead of the local sample content the moment you publish rows.
 
@@ -101,7 +87,7 @@ supabase/schema.sql Full Postgres schema + RLS policies
 - Added **Mini Churches** and **Service Sectors** as full content types (schema, public pages, nav/footer links, admin CRUD).
 - Admin CRUD now works end-to-end (once Supabase is connected) for: Events, Departments, Mini Churches, Service Sectors, Sermons, Gallery Albums, Leadership.
 - Blog has a real editor now: `/admin/blogs` (list) and `/admin/blogs/new` / `/admin/blogs/:id` (editor) with a lightweight rich-text toolbar (headings, lists, blockquote, scripture block, callout, links, images, divider, alignment), SEO/OG fields, draft/published/scheduled/archived status, and auto reading-time. Public posts render at `/blog/:slug`.
-- Live Service Settings now has a real admin form (`/admin/live-service`) with a live preview of the countdown — change day/time/timezone/stream links and the public countdown recalculates automatically, no manual reset.
+- Live Service Settings now has a real admin form (`/admin/live-service`) with a live preview of the countdown, change day/time/timezone/stream links and the public countdown recalculates automatically, no manual reset.
 - Navbar's CTA auto-switches to a pulsing "Watch Live" button (linking straight to the stream) during the live window.
 
 ## Latest update
@@ -112,3 +98,22 @@ supabase/schema.sql Full Postgres schema + RLS policies
 - Image fields upload straight to Supabase Storage (`media` bucket, created by `supabase/schema.sql`).
 - Admin works on phones (slide-out menu). The dashboard shows live counts, quick actions and the upcoming-service countdown.
 - Already ran an older `schema.sql`? Run the "UPGRADING AN EXISTING DATABASE" block at the bottom of the file once.
+
+## Fixing "violates row-level security policy" when saving in the admin
+
+This means you are signed in, but your account is not listed as an administrator. In the Supabase SQL Editor run
+(replace the email with the one you sign in with):
+
+```sql
+insert into profiles (id, full_name, role)
+select id, 'Site Admin', 'admin' from auth.users
+where email = 'you@example.com'
+on conflict (id) do nothing;
+```
+
+## Videos, contact and SEO
+
+- Sermons and the Live Service page play YouTube videos on the site. Paste a normal YouTube link (watch, youtu.be or live) in Admin > Sermons or Admin > Live Service Settings and the video's own YouTube thumbnail appears automatically; clicking it plays the video in place.
+- Contact details, the Get Directions link and the map are edited under Admin > Contact & Location. Social links are under Admin > Social Media.
+- Every page sets its own title, description, Open Graph tags and canonical URL; the homepage adds Church structured data and blog posts add Article data. `public/sitemap.xml` and `robots.txt` use https://fgck-cc.vercel.app, so change that address in both files (and in `index.html`) if you move to your own domain.
+- If you already have a database, run the last block of `supabase/schema.sql` (the three new `site_settings` columns).

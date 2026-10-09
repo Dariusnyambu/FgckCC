@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Images } from "lucide-react";
+import { useSeo } from "../lib/useSeo";
 import SectionHeading from "../components/SectionHeading";
 import { getGalleryAlbums } from "../data/content";
 
 export default function Gallery() {
+  useSeo({ title: 'Gallery', description: 'Photos from services, worship, conferences, youth activities and outreach at FGCK Christ Centre.' });
   const [albums, setAlbums] = useState([]);
 
   useEffect(() => {

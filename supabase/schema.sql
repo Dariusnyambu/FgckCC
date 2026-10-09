@@ -40,6 +40,9 @@ create table if not exists site_settings (
   twitter_url text,
   tiktok_url text,
   whatsapp_number text,
+  map_url text,
+  map_embed_url text,
+  office_hours text,
   seo_title text,
   seo_keywords text,
   seo_description text,
@@ -463,3 +466,9 @@ alter table giving_settings
 alter table prayer_requests drop constraint if exists prayer_requests_status_check;
 alter table prayer_requests add constraint prayer_requests_status_check
   check (status in ('new','read','prayed_for','archived'));
+
+-- Added with the contact/location settings:
+alter table site_settings
+  add column if not exists map_url text,
+  add column if not exists map_embed_url text,
+  add column if not exists office_hours text;

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSeo } from "../lib/useSeo";
 import SectionHeading from "../components/SectionHeading";
 import { getBlogPosts } from "../data/content";
 
 export default function Blog() {
+  useSeo({ title: 'Christian Blog and Articles', description: 'Christian articles on faith, prayer, family, leadership and spiritual growth from FGCK Christ Centre.' });
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {

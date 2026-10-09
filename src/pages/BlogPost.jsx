@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ChevronLeft, Clock, Share2 } from "lucide-react";
 import { getBlogPostBySlug } from "../data/content";
+import { useSeo } from "../lib/useSeo";
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -12,15 +13,25 @@ export default function BlogPost() {
     getBlogPostBySlug(slug).then(setPost);
   }, [slug]);
 
-  useEffect(() => {
-    if (!post) return;
-    document.title = `${post.seo_title || post.title} | FGCK Christ Centre`;
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) metaDesc.setAttribute("content", post.seo_description || post.excerpt || "");
-    return () => {
-      document.title = "FGCK Christ Centre | Light House";
-    };
-  }, [post]);
+  useSeo({
+    title: post ? post.seo_title || post.title : "Article",
+    description: post ? post.seo_description || post.excerpt : undefined,
+    image: post?.og_image || post?.cover_image || undefined,
+    type: "article",
+    canonical: post?.canonical_url || undefined,
+    noindex: post === null,
+    jsonLd: post && {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: post.title,
+      description: post.seo_description || post.excerpt,
+      image: post.og_image || post.cover_image || undefined,
+      author: { "@type": "Person", name: post.author || "FGCK Christ Centre" },
+      datePublished: post.published_at,
+      publisher: { "@type": "Organization", name: "FGCK Christ Centre", logo: { "@type": "ImageObject", url: window.location.origin + "/images/logo.png" } },
+      mainEntityOfPage: window.location.href,
+    },
+  });
 
   if (post === undefined) return null;
 

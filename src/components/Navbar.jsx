@@ -29,7 +29,7 @@ const MORE_LINKS = [
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { isLive, watchUrl } = useLiveStatus();
+  const { isLive } = useLiveStatus();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -37,25 +37,24 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const cta = isLive ? (
-    <a
-      href={watchUrl || "/live"}
-      target={watchUrl ? "_blank" : undefined}
-      rel="noreferrer"
-      className="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-crimson px-6 py-3 text-sm font-bold text-cream shadow-sm transition hover:bg-crimson-dark"
-    >
-      <span className="relative flex h-2 w-2">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-75" />
-        <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
-      </span>
-      Watch Live
-    </a>
-  ) : (
+  const cta = (
     <NavLink
       to="/live"
       className="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-crimson px-6 py-3 text-sm font-bold text-cream shadow-sm transition hover:bg-crimson-dark"
     >
-      <Radio size={15} className="shrink-0" /> Join Us This Sunday
+      {isLive ? (
+        <>
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
+          </span>
+          Watch Live
+        </>
+      ) : (
+        <>
+          <Radio size={15} className="shrink-0" /> Join Us This Sunday
+        </>
+      )}
     </NavLink>
   );
 

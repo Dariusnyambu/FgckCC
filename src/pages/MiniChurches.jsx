@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { MapPin, Users } from "lucide-react";
+import { useSeo } from "../lib/useSeo";
 import SectionHeading from "../components/SectionHeading";
 import { getMiniChurches } from "../data/content";
 
 export default function MiniChurches() {
+  useSeo({ title: 'Mini Churches', description: 'FGCK Christ Centre mini churches serving neighbourhoods across Nairobi and beyond.' });
   const [miniChurches, setMiniChurches] = useState([]);
 
   useEffect(() => {

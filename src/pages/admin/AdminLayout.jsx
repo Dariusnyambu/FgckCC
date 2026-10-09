@@ -3,9 +3,11 @@ import { Outlet, Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { LogOut, Menu, ExternalLink } from "lucide-react";
 import AdminSidebar from "./AdminSidebar";
+import { useSeo } from "../../lib/useSeo";
 import { useAuth } from "../../context/AuthContext";
 
 export default function AdminLayout() {
+  useSeo({ title: "Admin", noindex: true });
   const { session, signOut } = useAuth();
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { LockKeyhole } from "lucide-react";
+import { useSeo } from "../../lib/useSeo";
 import { useAuth } from "../../context/AuthContext";
 
 export default function AdminLogin() {
+  useSeo({ title: "Admin", noindex: true });
   const { session, signIn, isSupabaseConfigured } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { useSeo } from "../lib/useSeo";
 import SectionHeading from "../components/SectionHeading";
 import LeaderCard from "../components/LeaderCard";
 import { getLeaders } from "../data/content";
 
 export default function Leadership() {
+  useSeo({ title: 'Our Leadership', description: 'Meet Rev. Dr. John Kimani, Pst. Jane Kimani and the leadership team shepherding FGCK Christ Centre.' });
   const [leaders, setLeaders] = useState([]);
 
   useEffect(() => {

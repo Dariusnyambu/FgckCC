@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { ClipboardList } from "lucide-react";
+import { useSeo } from "../lib/useSeo";
 import SectionHeading from "../components/SectionHeading";
 import { getServiceSectors } from "../data/content";
 
 export default function ServiceSectors() {
+  useSeo({ title: 'Service Sectors', description: 'The service teams that keep FGCK Christ Centre running: ushering, media, security and logistics.' });
   const [sectors, setSectors] = useState([]);
 
   useEffect(() => {

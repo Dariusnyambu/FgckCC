@@ -29,7 +29,7 @@ export function useLiveStatus() {
     return () => clearInterval(id);
   }, [config]);
 
-  const watchUrl = config?.streaming_url || config?.youtube_url || config?.facebook_url || null;
+  const watchUrl = config?.youtube_url || config?.streaming_url || config?.facebook_url || null;
 
   return { isLive: status === "live", watchUrl, config };
 }

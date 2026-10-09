@@ -4,6 +4,10 @@ import { HeartHandshake, Gift, ArrowRight, MapPin, Layers, ClipboardList, Images
 import SectionHeading from "../components/SectionHeading";
 import LeaderCard from "../components/LeaderCard";
 import ServiceCountdown from "../components/ServiceCountdown";
+import VideoPlayer from "../components/VideoPlayer";
+import { useSeo } from "../lib/useSeo";
+import { socialLinks } from "../components/SocialIcons";
+import { liveLink, sermonVideo } from "../lib/serviceLinks";
 import {
   getSiteSettings,
   getLeaders,
@@ -41,10 +45,28 @@ export default function Home() {
 
   const show = (key) => settings?.[key] !== false;
 
+  useSeo({
+    description: settings?.seo_description,
+    jsonLd: settings && {
+      "@context": "https://schema.org",
+      "@type": "Church",
+      name: settings.church_name,
+      url: window.location.origin,
+      logo: window.location.origin + "/images/logo.png",
+      image: window.location.origin + "/images/logo.png",
+      telephone: settings.phone,
+      email: settings.email,
+      address: { "@type": "PostalAddress", streetAddress: "Clay City", addressLocality: "Nairobi", addressCountry: "KE" },
+      geo: { "@type": "GeoCoordinates", latitude: -1.2124254, longitude: 36.9069397 },
+      hasMap: settings.map_url,
+      sameAs: socialLinks(settings).map((x) => x.href),
+    },
+  });
+
   return (
     <>
       {/* HERO */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden" data-no-reveal>
         <div className="rays pointer-events-none absolute inset-0" />
         <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 lg:grid-cols-2 lg:items-center lg:px-8 lg:py-24">
           <div className="relative">
@@ -92,13 +114,18 @@ export default function Home() {
 
           <div>
             {liveConfig && <ServiceCountdown config={liveConfig} />}
+            {liveConfig && liveLink(liveConfig) && (
+              <div className="mt-5">
+                <VideoPlayer url={liveLink(liveConfig)} title={liveConfig.title || "Church service"} thumbnail={liveConfig.thumbnail_url || undefined} />
+              </div>
+            )}
           </div>
         </div>
       </section>
 
       {/* ABOUT STRIP */}
       {show("show_about") && (
-        <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+        <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8" data-no-reveal>
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>
             <SectionHeading
@@ -128,7 +155,7 @@ export default function Home() {
 
       {/* LEADERSHIP PREVIEW */}
       {show("show_leadership") && (
-        <section className="bg-white py-20">
+        <section className="bg-white py-20" data-no-reveal>
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
           <SectionHeading eyebrow="Our Shepherds" title="Meet Our Leadership" align="center" />
           <div className="mt-12 grid gap-6 sm:grid-cols-2">
@@ -147,7 +174,7 @@ export default function Home() {
 
       {/* DEPARTMENTS PREVIEW */}
       {show("show_departments") && (
-        <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+        <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8" data-no-reveal>
         <SectionHeading eyebrow="Get Involved" title="Departments & Ministries" />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {departments.map((d) => (
@@ -174,11 +201,14 @@ export default function Home() {
             <SectionHeading eyebrow="Latest Sermons" title="Recent Messages" />
           </div>
           <div className="mt-10 grid gap-5 sm:grid-cols-2">
-            {sermons.map((s) => (
-              <div key={s.id} className="rounded-2xl bg-cream/5 p-6 ring-1 ring-cream/10">
-                <p className="eyebrow text-gold">{s.scripture}</p>
-                <p className="mt-2 font-display text-xl font-extrabold">{s.title}</p>
-                <p className="mt-1 text-sm text-cream/60">{s.speaker} · {s.date}</p>
+            {sermons.slice(0, 4).map((s) => (
+              <div key={s.id} className="overflow-hidden rounded-2xl bg-cream/5 ring-1 ring-cream/10">
+                <VideoPlayer url={sermonVideo(s)} title={s.title} thumbnail={sermonVideo(s) ? s.thumbnail_url : undefined} className="rounded-none" />
+                <div className="p-5">
+                  <p className="eyebrow text-gold">{s.scripture}</p>
+                  <p className="mt-2 font-display text-xl font-extrabold">{s.title}</p>
+                  <p className="mt-1 text-sm text-cream/60">{s.speaker} · {s.date}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -193,7 +223,7 @@ export default function Home() {
 
       {/* EVENTS PREVIEW */}
       {show("show_events") && (
-        <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+        <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8" data-no-reveal>
         <SectionHeading eyebrow="What's On" title="Upcoming Events" />
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
           {events.map((e) => (
@@ -215,7 +245,7 @@ export default function Home() {
 
       {/* PRAYER + GIVING CTA */}
       {show("show_cta") && (
-        <section className="mx-auto max-w-7xl px-5 pb-20 lg:px-8">
+        <section className="mx-auto max-w-7xl px-5 pb-20 lg:px-8" data-no-reveal>
         <div className="grid gap-5 sm:grid-cols-2">
           <div className="rounded-2xl bg-gold/15 p-8">
             <HeartHandshake className="text-crimson" size={28} />

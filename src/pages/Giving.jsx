@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSeo } from "../lib/useSeo";
 import SectionHeading from "../components/SectionHeading";
 import { Smartphone, Landmark, Gift } from "lucide-react";
 import { getGivingSettings } from "../data/content";
@@ -14,6 +15,7 @@ function Row({ label, value }) {
 }
 
 export default function Giving() {
+  useSeo({ title: 'Give Online', description: 'Give your tithes and offerings to FGCK Christ Centre by M-Pesa or bank transfer.' });
   const [g, setG] = useState(null);
   useEffect(() => { getGivingSettings().then(setG); }, []);
   if (!g) return null;

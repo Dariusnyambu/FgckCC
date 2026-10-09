@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { useSeo } from "../lib/useSeo";
 import SectionHeading from "../components/SectionHeading";
 import { Users } from "lucide-react";
 import { getDepartments } from "../data/content";
 
 export default function Departments() {
+  useSeo({ title: 'Departments and Ministries', description: 'Explore the departments and ministries at FGCK Christ Centre: youth, children, women, worship and more.' });
   const [departments, setDepartments] = useState([]);
 
   useEffect(() => {

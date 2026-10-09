@@ -30,6 +30,7 @@ const GROUPS = [
       { to: "/admin/homepage", label: "Homepage", icon: Home },
       { to: "/admin/about", label: "About", icon: Info },
       { to: "/admin/settings", label: "Site Settings", icon: Settings },
+      { to: "/admin/contact", label: "Contact & Location", icon: MapPin },
     ],
   },
   {

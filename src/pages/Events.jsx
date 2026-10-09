@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { MapPin, Clock } from "lucide-react";
+import { useSeo } from "../lib/useSeo";
 import SectionHeading from "../components/SectionHeading";
 import { getEvents } from "../data/content";
 
 export default function Events() {
+  useSeo({ title: 'Events', description: 'Upcoming events, conferences and gatherings at FGCK Christ Centre.' });
   const [events, setEvents] = useState([]);
 
   useEffect(() => {

@@ -7,8 +7,8 @@ export const siteSettings = {
   church_name: "FGCK Christ Centre",
   tagline: "Power of the Gospel · Kingdom Image · Servanthood Leadership",
   logo_url: "/images/logo.png",
-  address: "FGCK Christ Centre, Light House, Nairobi, Kenya",
-  phone: "+254 700 000 000",
+  address: "FGCK Christ Centre (Light House), Clay City, Nairobi, Kenya",
+  phone: "+254 746 102500",
   email: "info@fgckchristcentre.org",
   service_summary: "Sundays · 10:00 AM · In person & Live Stream",
   // Theme, editable from Admin → Site Settings. These are the defaults
@@ -33,11 +33,16 @@ export const siteSettings = {
   core_values:
     "The Gospel: Christ crucified and risen is the center of everything we do.\nKingdom Image: Every believer reflects God's character in word and deed.\nServanthood Leadership: We lead by serving, following the example of Christ.\nFamily: The church is a family. We grow, grieve and celebrate together.",
   beliefs: "",
-  facebook_url: "",
-  youtube_url: "",
-  instagram_url: "",
+  facebook_url: "https://www.facebook.com/profile.php?id=100087526562209",
+  youtube_url: "https://www.youtube.com/@fgckchristcentre4170",
+  instagram_url: "https://www.instagram.com/fgckchristcentre/",
   twitter_url: "",
-  tiktok_url: "",
+  tiktok_url: "https://www.tiktok.com/@fgckchristcentre",
+  map_url: "https://maps.app.goo.gl/y9NCSSijT8P6BU1m9",
+  map_embed_url: "https://maps.google.com/maps?q=-1.2124254,36.9069397&z=16&output=embed",
+  office_hours: "Sundays, 10:00 AM",
+  seo_description: "FGCK Christ Centre (Light House) in Clay City, Nairobi. Join us for Sunday worship, watch sermons and live services online, and explore our ministries, events and Christian blog.",
+  seo_keywords: "FGCK Christ Centre, Full Gospel Churches of Kenya, church in Nairobi, Clay City church, Light House, live church service, sermons",
   whatsapp_number: "",
 };
 

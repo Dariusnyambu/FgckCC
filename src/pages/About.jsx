@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSeo } from "../lib/useSeo";
 import SectionHeading from "../components/SectionHeading";
 import { Compass, Eye, Heart } from "lucide-react";
 import { getSiteSettings } from "../data/content";
@@ -10,6 +11,7 @@ function Paragraphs({ text, className = "" }) {
 }
 
 export default function About() {
+  useSeo({ title: 'About Us', description: 'Learn the story, vision, mission and core values of FGCK Christ Centre (Light House) in Nairobi.' });
   const [s, setS] = useState(null);
   useEffect(() => { getSiteSettings().then(setS); }, []);
   if (!s) return null;

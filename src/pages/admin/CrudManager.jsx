@@ -131,6 +131,7 @@ export default function CrudManager({ title, singular, table, fields, columns, e
                 <label className="mb-1.5 block text-sm font-medium text-ink/70">
                   {f.label}{f.required && <span className="text-crimson"> *</span>}
                 </label>
+                {f.hint && <p className="-mt-1 mb-1.5 text-xs text-ink/50">{f.hint}</p>}
                 {f.type === "textarea" ? (
                   <textarea required={f.required} rows={4} value={form[f.name] ?? ""} onChange={(e) => setField(f.name, e.target.value)} className={input} />
                 ) : f.type === "checkbox" ? (

@@ -18,7 +18,7 @@ export default function SettingsForm({ title, description, table, defaults = {},
     (async () => {
       if (isSupabaseConfigured) {
         const { data } = await supabase.from(table).select("*").eq("id", 1).maybeSingle();
-        if (alive) return setForm({ ...defaults, ...(data || {}) });
+        if (alive) return setForm({ ...defaults, ...Object.fromEntries(Object.entries(data || {}).filter(([, v]) => v !== null)) });
       }
       if (alive) setForm({ ...defaults });
     })();
