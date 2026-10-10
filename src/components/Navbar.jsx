@@ -19,7 +19,7 @@ const MAIN_LINKS = [
 
 const MORE_LINKS = [
   { to: "/departments", label: "Departments" },
-  { to: "/mini-churches", label: "Mini Churches" },
+  { to: "/mini-churches", label: "Mini-Churches" },
   { to: "/service-sectors", label: "Service Sectors" },
   { to: "/gallery", label: "Gallery" },
   { to: "/prayer", label: "Prayer" },
@@ -67,7 +67,7 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-6 py-4 lg:px-10">
         <NavLink to="/" className="flex shrink-0 items-center gap-3.5" onClick={() => setOpen(false)}>
           <img
-            src="/images/logo.png"
+            src="/images/logo-sm.png" width="48" height="48" decoding="async"
             alt="FGCK Christ Centre logo"
             className="h-12 w-12 shrink-0 rounded-full object-cover ring-1 ring-ink/10"
           />

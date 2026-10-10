@@ -24,10 +24,10 @@ export default function Giving() {
   const hasBank = g.bank_name || g.bank_account_number;
 
   return (
-    <section className="mx-auto max-w-5xl px-5 py-16 lg:px-8 lg:py-24">
+    <section className="mx-auto max-w-5xl px-5 py-10 lg:px-8 lg:py-14">
       <SectionHeading eyebrow="Partner With Us" title="Give Online" description={g.message} align="center" />
 
-      <div className="mt-14 grid gap-6 sm:grid-cols-2">
+      <div className="mt-8 grid gap-6 sm:grid-cols-2">
         <div className="rounded-2xl bg-white p-7 shadow-sm ring-1 ring-ink/5">
           <Smartphone className="text-crimson" size={26} />
           <p className="mt-4 font-display text-xl font-extrabold text-ink">Mobile Money</p>

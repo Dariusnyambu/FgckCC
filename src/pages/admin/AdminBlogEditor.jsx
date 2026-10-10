@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { ChevronLeft, ChevronDown, ChevronUp, AlertCircle } from "lucide-react";
 import { supabase, isSupabaseConfigured } from "../../lib/supabaseClient";
-import { getBlogCategories } from "../../data/content";
+import { getBlogCategories, clearContentCache } from "../../data/content";
+import { pickColumns } from "../../lib/db";
+import { friendlyError, reportDbError } from "../../lib/errors";
+import { useAuth } from "../../context/AuthContext";
 import RichTextEditor from "../../components/admin/RichTextEditor";
 import ImageUpload from "../../components/admin/ImageUpload";
 
@@ -24,6 +27,12 @@ const EMPTY = {
   og_image: "",
 };
 
+function toLocalInput(iso) {
+  const d = new Date(iso);
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
 function slugify(text) {
   return text
     .toLowerCase()
@@ -42,6 +51,7 @@ export default function AdminBlogEditor() {
   const { id } = useParams();
   const isNew = !id || id === "new";
   const navigate = useNavigate();
+  const { session } = useAuth();
 
   const [form, setForm] = useState(EMPTY);
   const [categories, setCategories] = useState([]);
@@ -66,7 +76,7 @@ export default function AdminBlogEditor() {
       .eq("id", id)
       .single()
       .then(({ data }) => {
-        if (data) setForm({ ...EMPTY, ...data });
+        if (data) setForm({ ...EMPTY, ...Object.fromEntries(Object.entries(data).map(([k, v]) => [k, v ?? ""])), scheduled_at: data.scheduled_at ? toLocalInput(data.scheduled_at) : "" });
         setLoading(false);
       });
   }, [id, isNew]);
@@ -84,23 +94,31 @@ export default function AdminBlogEditor() {
       return;
     }
     setSaving(true);
-    const payload = {
+    const publishing = publishNow || form.status === "published";
+    const toIso = (v) => (v ? new Date(v).toISOString() : null);
+    if (form.status === "scheduled" && !form.scheduled_at) { setSaving(false); return setStatus({ ok: false, message: "Choose the date and time to publish this post." }); }
+    if (!form.title.trim() || !form.slug.trim()) { setSaving(false); return setStatus({ ok: false, message: "A title and URL slug are required." }); }
+    const payload = pickColumns("blog_posts", {
       ...form,
       status: publishNow ? "published" : form.status,
-      published_at: publishNow && !form.published_at ? new Date().toISOString() : form.published_at || null,
+      scheduled_at: form.status === "scheduled" && !publishNow ? toIso(form.scheduled_at) : null,
+      published_at: publishing ? form.published_at || new Date().toISOString() : form.published_at || null,
       reading_time: wordsToReadingTime(form.content || ""),
-    };
-    delete payload.id;
+      author: form.author || session?.user?.email?.split("@")[0],
+    }, { nullable: ["scheduled_at", "published_at", "excerpt", "cover_image", "category", "seo_title", "seo_description", "focus_keyword", "canonical_url", "og_title", "og_description", "og_image"] });
+    delete payload.id; delete payload.created_at; delete payload.updated_at;
 
     const { error } = isNew
-      ? await supabase.from("blog_posts").insert(payload).select().single()
+      ? await supabase.from("blog_posts").insert(payload)
       : await supabase.from("blog_posts").update(payload).eq("id", id);
 
     setSaving(false);
     if (error) {
-      setStatus({ ok: false, message: error.message });
+      reportDbError("save blog post", error);
+      setStatus({ ok: false, message: friendlyError(error.message) });
       return;
     }
+    clearContentCache();
     setStatus({ ok: true, message: publishNow ? "Published." : "Saved." });
     if (isNew) navigate("/admin/blogs");
   };

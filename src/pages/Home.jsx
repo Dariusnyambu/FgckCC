@@ -1,25 +1,21 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { HeartHandshake, Gift, ArrowRight, MapPin, Layers, ClipboardList, Images } from "lucide-react";
+import { HeartHandshake, Gift, ArrowRight, Clock, Layers, ClipboardList, Images, UsersRound } from "lucide-react";
 import SectionHeading from "../components/SectionHeading";
 import LeaderCard from "../components/LeaderCard";
 import ServiceCountdown from "../components/ServiceCountdown";
 import VideoPlayer from "../components/VideoPlayer";
+import { sermonVideo } from "../lib/youtube";
 import { useSeo } from "../lib/useSeo";
+import { useTheme } from "../context/ThemeContext";
+import { useServiceInfo, streamLinkFor } from "../lib/useServiceInfo";
 import { socialLinks } from "../components/SocialIcons";
-import { liveLink, sermonVideo } from "../lib/serviceLinks";
-import {
-  getSiteSettings,
-  getLeaders,
-  getDepartments,
-  getSermons,
-  getEvents,
-  getLiveServiceSettings,
-} from "../data/content";
+import { siteSettings as defaultSettings } from "../data/sampleContent";
+import { getLeaders, getDepartments, getSermons, getEvents } from "../data/content";
 
 const QUICK_LINKS = [
   { to: "/departments", label: "Departments", icon: Layers },
-  { to: "/mini-churches", label: "Mini Churches", icon: MapPin },
+  { to: "/mini-churches", label: "Mini-Churches", icon: UsersRound },
   { to: "/service-sectors", label: "Service Sectors", icon: ClipboardList },
   { to: "/gallery", label: "Gallery", icon: Images },
   { to: "/prayer", label: "Prayer", icon: HeartHandshake },
@@ -27,27 +23,28 @@ const QUICK_LINKS = [
 ];
 
 export default function Home() {
-  const [settings, setSettings] = useState(null);
+  // Hero data is available immediately: the last known settings are cached locally and the defaults are bundled.
+  const theme = useTheme();
+  const settings = theme?.settings || defaultSettings;
+  const { settings: live, next, now } = useServiceInfo();
   const [leaders, setLeaders] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [sermons, setSermons] = useState([]);
   const [events, setEvents] = useState([]);
-  const [liveConfig, setLiveConfig] = useState(null);
 
+  // Start loading homepage section data immediately without blocking the hero render.
   useEffect(() => {
-    getSiteSettings().then(setSettings);
     getLeaders().then(setLeaders);
     getDepartments().then(setDepartments);
     getSermons().then(setSermons);
     getEvents().then(setEvents);
-    getLiveServiceSettings().then(setLiveConfig);
   }, []);
 
-  const show = (key) => settings?.[key] !== false;
+  const show = (key) => settings[key] !== false;
 
   useSeo({
-    description: settings?.seo_description,
-    jsonLd: settings && {
+    description: settings.seo_description,
+    jsonLd: {
       "@context": "https://schema.org",
       "@type": "Church",
       name: settings.church_name,
@@ -66,19 +63,19 @@ export default function Home() {
   return (
     <>
       {/* HERO */}
-      <section className="relative overflow-hidden" data-no-reveal>
+      <section data-no-reveal className="relative overflow-hidden">
         <div className="rays pointer-events-none absolute inset-0" />
-        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 lg:grid-cols-2 lg:items-center lg:px-8 lg:py-24">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-10 lg:grid-cols-2 lg:items-center lg:px-8 lg:py-14">
           <div className="relative">
             <div className="mb-5 flex items-center gap-3">
               <p className="eyebrow text-crimson">Welcome Home</p>
             </div>
             <h1 className="font-display text-4xl font-extrabold leading-[1.1] text-ink sm:text-5xl lg:text-6xl">
-              {settings?.hero_title || settings?.church_name || "FGCK Christ Centre"}
+              {settings.hero_title || settings.church_name || "FGCK Christ Centre"}
               <span className="block text-crimson">Light House</span>
             </h1>
             <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink/70">
-              {settings?.hero_text ||
+              {settings.hero_text ||
                 "A place where the Power of the Gospel shapes the Kingdom Image in every believer through Servanthood Leadership. Come as you are. You belong here."}
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
@@ -96,10 +93,10 @@ export default function Home() {
               </Link>
             </div>
             <p className="mt-6 flex items-center gap-2 text-sm text-ink/60">
-              <MapPin size={16} className="text-crimson" /> {settings?.service_summary || "Sundays · 10:00 AM"}
+              <Clock size={16} className="text-crimson" /> {settings.service_summary || "Sundays · 10:00 AM"}
             </p>
 
-            <div className="mt-10 grid max-w-lg grid-cols-2 gap-3 sm:grid-cols-3">
+            <div className="mt-7 grid max-w-lg grid-cols-2 gap-3 sm:grid-cols-3">
               {QUICK_LINKS.map(({ to, label, icon: Icon }) => (
                 <Link
                   key={to}
@@ -113,10 +110,10 @@ export default function Home() {
           </div>
 
           <div>
-            {liveConfig && <ServiceCountdown config={liveConfig} />}
-            {liveConfig && liveLink(liveConfig) && (
+            <ServiceCountdown service={next} now={now} />
+            {streamLinkFor(next, live) && (
               <div className="mt-5">
-                <VideoPlayer url={liveLink(liveConfig)} title={liveConfig.title || "Church service"} thumbnail={liveConfig.thumbnail_url || undefined} />
+                <VideoPlayer url={streamLinkFor(next, live)} title={next?.title || "Church service"} thumbnail={live?.thumbnail_url || undefined} />
               </div>
             )}
           </div>
@@ -125,7 +122,7 @@ export default function Home() {
 
       {/* ABOUT STRIP */}
       {show("show_about") && (
-        <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8" data-no-reveal>
+        <section data-no-reveal className="mx-auto max-w-7xl px-5 py-12 lg:px-8 lg:py-14">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>
             <SectionHeading
@@ -155,11 +152,11 @@ export default function Home() {
 
       {/* LEADERSHIP PREVIEW */}
       {show("show_leadership") && (
-        <section className="bg-white py-20" data-no-reveal>
+        <section data-no-reveal className="bg-white py-12 lg:py-14">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <SectionHeading eyebrow="Our Shepherds" title="Meet Our Leadership" align="center" />
-          <div className="mt-12 grid gap-6 sm:grid-cols-2">
-            {leaders.map((leader) => (
+          <SectionHeading eyebrow="Our Shepherds" title="Meet Our Pastoral Team" align="center" />
+          <div className="mx-auto mt-8 grid max-w-3xl gap-6 sm:grid-cols-2">
+            {leaders.filter((l) => l.category === "pastoral_team").map((leader) => (
               <LeaderCard key={leader.id} leader={leader} />
             ))}
           </div>
@@ -174,9 +171,9 @@ export default function Home() {
 
       {/* DEPARTMENTS PREVIEW */}
       {show("show_departments") && (
-        <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8" data-no-reveal>
+        <section data-no-reveal className="mx-auto max-w-7xl px-5 py-12 lg:px-8 lg:py-14">
         <SectionHeading eyebrow="Get Involved" title="Departments & Ministries" />
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {departments.map((d) => (
             <div key={d.id} className="rounded-2xl border border-ink/10 p-6 transition hover:border-crimson/40 hover:shadow-sm">
               <p className="font-display text-lg font-extrabold text-ink">{d.name}</p>
@@ -195,12 +192,12 @@ export default function Home() {
 
       {/* SERMONS PREVIEW */}
       {show("show_sermons") && (
-        <section className="bg-ink py-20 text-cream">
+        <section data-no-reveal className="bg-ink py-12 text-cream lg:py-14">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
           <div className="flex items-end justify-between gap-4">
-            <SectionHeading eyebrow="Latest Sermons" title="Recent Messages" />
+            <SectionHeading eyebrow="Latest Sermons" title="Recent Messages" tone="light" />
           </div>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2">
+          <div className="mt-7 grid gap-5 sm:grid-cols-2">
             {sermons.slice(0, 4).map((s) => (
               <div key={s.id} className="overflow-hidden rounded-2xl bg-cream/5 ring-1 ring-cream/10">
                 <VideoPlayer url={sermonVideo(s)} title={s.title} thumbnail={sermonVideo(s) ? s.thumbnail_url : undefined} className="rounded-none" />
@@ -223,9 +220,9 @@ export default function Home() {
 
       {/* EVENTS PREVIEW */}
       {show("show_events") && (
-        <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8" data-no-reveal>
+        <section data-no-reveal className="mx-auto max-w-7xl px-5 py-12 lg:px-8 lg:py-14">
         <SectionHeading eyebrow="What's On" title="Upcoming Events" />
-        <div className="mt-10 grid gap-5 sm:grid-cols-2">
+        <div className="mt-7 grid gap-5 sm:grid-cols-2">
           {events.map((e) => (
             <div key={e.id} className="flex gap-5 rounded-2xl border border-ink/10 p-6">
               <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-xl bg-crimson text-cream">
@@ -245,7 +242,7 @@ export default function Home() {
 
       {/* PRAYER + GIVING CTA */}
       {show("show_cta") && (
-        <section className="mx-auto max-w-7xl px-5 pb-20 lg:px-8" data-no-reveal>
+        <section data-no-reveal className="mx-auto max-w-7xl px-5 pb-20 lg:px-8">
         <div className="grid gap-5 sm:grid-cols-2">
           <div className="rounded-2xl bg-gold/15 p-8">
             <HeartHandshake className="text-crimson" size={28} />

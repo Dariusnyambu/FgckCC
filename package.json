@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "audit:schema": "node scripts/schema-audit.mjs --write",
+    "test:schedule": "node scripts/test-schedule.mjs",
+    "test:migrations": "node scripts/test-migrations.mjs",
+    "test": "npm run audit:schema && npm run test:schedule && npm run test:migrations",
+    "docs:schema": "node scripts/gen-schema-doc.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.112.1",
@@ -17,6 +22,7 @@
     "react-router-dom": "^7.18.2"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.4",

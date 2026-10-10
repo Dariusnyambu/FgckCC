@@ -13,14 +13,14 @@ export default function ServiceSectors() {
   }, []);
 
   return (
-    <section className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
+    <section className="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-14">
       <SectionHeading
         eyebrow="Serving Together"
         title="Service Sectors"
         description="The behind-the-scenes teams that keep FGCK Christ Centre running smoothly."
         align="center"
       />
-      <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {sectors.map((s) => (
           <div key={s.id} className="rounded-2xl border border-ink/10 bg-white p-7">
             <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gold/15 text-clay">

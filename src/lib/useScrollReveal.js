@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 // Cards, grid items and headings fade/slide in as they scroll into view.
 // Elements are tagged by script, so if anything fails the content simply stays visible.
-const SELECTOR = "main section:not([data-no-reveal]) .grid > *, main [data-reveal], main article > *";
+const SELECTOR = "main .grid > *, main [data-reveal], main article > *";
 
 export function useScrollReveal(key) {
   useEffect(() => {
@@ -29,7 +29,7 @@ export function useScrollReveal(key) {
 
     const tag = () => {
       main.querySelectorAll(SELECTOR).forEach((el) => {
-        if (el.dataset.rv) return;
+        if (el.dataset.rv || el.closest("[data-no-reveal]")) return;
         el.dataset.rv = "1";
         el.classList.add("reveal");
         const index = el.parentElement ? Array.prototype.indexOf.call(el.parentElement.children, el) : 0;

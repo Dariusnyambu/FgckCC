@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Newspaper, CalendarDays, Images, Users, Layers, PlayCircle, HeartHandshake, Mail, MapPin, ClipboardList, Plus } from "lucide-react";
+import { Newspaper, CalendarDays, Images, Users, Layers, PlayCircle, HeartHandshake, Mail, UsersRound, ClipboardList, Plus } from "lucide-react";
 import { supabase, isSupabaseConfigured } from "../../lib/supabaseClient";
-import { getBlogPosts, getEvents, getGalleryAlbums, getLeaders, getDepartments, getSermons, getMiniChurches, getServiceSectors, getLiveServiceSettings } from "../../data/content";
+import { getBlogPosts, getEvents, getGalleryAlbums, getLeaders, getDepartments, getSermons, getMiniChurchGroups, getServiceSectors } from "../../data/content";
+import { useServiceInfo } from "../../lib/useServiceInfo";
+import { subscribeDbErrors } from "../../lib/errors";
 import ServiceCountdown from "../../components/ServiceCountdown";
 
 async function count(table, filter) {
@@ -21,10 +23,11 @@ const QUICK = [
 
 export default function AdminDashboard() {
   const [c, setC] = useState(null);
-  const [live, setLive] = useState(null);
+  const { next, now } = useServiceInfo();
+  const [dbErrors, setDbErrors] = useState([]);
+  useEffect(() => subscribeDbErrors(setDbErrors), []);
 
   useEffect(() => {
-    getLiveServiceSettings().then(setLive);
     (async () => {
       if (isSupabaseConfigured) {
         const [blogs, published, events, albums, leaders, departments, sermons, mini, sectors, prayers, messages] = await Promise.all([
@@ -34,7 +37,7 @@ export default function AdminDashboard() {
         ]);
         return setC({ blogs, published, events, albums, leaders, departments, sermons, mini, sectors, prayers, messages });
       }
-      const [b, e, g, l, d, s, m, sv] = await Promise.all([getBlogPosts(), getEvents(), getGalleryAlbums(), getLeaders(), getDepartments(), getSermons(), getMiniChurches(), getServiceSectors()]);
+      const [b, e, g, l, d, s, m, sv] = await Promise.all([getBlogPosts(), getEvents(), getGalleryAlbums(), getLeaders(), getDepartments(), getSermons(), getMiniChurchGroups(), getServiceSectors()]);
       setC({ blogs: b.length, published: b.filter((x) => x.status === "published").length, events: e.length, albums: g.length, leaders: l.length, departments: d.length, sermons: s.length, mini: m.length, sectors: sv.length, prayers: 0, messages: 0 });
     })();
   }, []);
@@ -46,7 +49,7 @@ export default function AdminDashboard() {
     { label: "Gallery Albums", value: c?.albums, icon: Images, to: "/admin/gallery" },
     { label: "Leaders", value: c?.leaders, icon: Users, to: "/admin/leadership" },
     { label: "Departments", value: c?.departments, icon: Layers, to: "/admin/departments" },
-    { label: "Mini Churches", value: c?.mini, icon: MapPin, to: "/admin/mini-churches" },
+    { label: "Mini-Church Groups", value: c?.mini, icon: UsersRound, to: "/admin/mini-churches" },
     { label: "Service Sectors", value: c?.sectors, icon: ClipboardList, to: "/admin/service-sectors" },
     { label: "New Prayer Requests", value: c?.prayers, icon: HeartHandshake, to: "/admin/prayer-requests", alert: c?.prayers > 0 },
     { label: "Unread Messages", value: c?.messages, icon: Mail, to: "/admin/messages", alert: c?.messages > 0 },
@@ -56,6 +59,15 @@ export default function AdminDashboard() {
     <div>
       <p className="font-display text-2xl font-extrabold text-ink">Dashboard</p>
       <p className="mt-1 text-sm text-ink/60">Welcome back, here's what's happening on your website.</p>
+
+      {dbErrors.length > 0 && (
+        <div className="mt-6 rounded-2xl border border-crimson/30 bg-crimson/5 p-5 text-sm">
+          <p className="font-bold text-crimson">The website had trouble reading from the database</p>
+          <ul className="mt-2 list-disc space-y-1 pl-5 text-ink/80">
+            {[...new Map(dbErrors.map((e) => [e.friendly, e])).values()].slice(0, 4).map((e) => <li key={e.friendly}>{e.friendly}</li>)}
+          </ul>
+        </div>
+      )}
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {cards.map(({ label, value, sub, icon: Icon, to, alert }) => (
@@ -81,7 +93,7 @@ export default function AdminDashboard() {
         </div>
         <div>
           <p className="mb-2 text-xs font-bold uppercase tracking-wide text-ink/50">Upcoming service</p>
-          {live && <ServiceCountdown config={live} compact />}
+          <ServiceCountdown service={next} now={now} compact />
         </div>
       </div>
     </div>

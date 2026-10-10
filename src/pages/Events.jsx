@@ -13,9 +13,9 @@ export default function Events() {
   }, []);
 
   return (
-    <section className="mx-auto max-w-5xl px-5 py-16 lg:px-8 lg:py-24">
+    <section className="mx-auto max-w-5xl px-5 py-10 lg:px-8 lg:py-14">
       <SectionHeading eyebrow="What's On" title="Upcoming Events" align="center" />
-      <div className="mt-14 space-y-5">
+      <div className="mt-8 space-y-5">
         {events.map((e) => (
           <div key={e.id} className="flex flex-col gap-5 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-ink/5 sm:flex-row sm:items-center">
             <div className="flex h-20 w-20 shrink-0 flex-col items-center justify-center rounded-xl bg-crimson text-cream">

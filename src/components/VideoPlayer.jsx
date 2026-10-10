@@ -14,7 +14,7 @@ export default function VideoPlayer({ url, title = "Video", thumbnail, autoPlay 
 
   if (!url) {
     return (
-      <div className={`${box} flex flex-col items-center justify-center gap-2 text-cream/50`}>
+      <div className={`relative flex aspect-[16/7] w-full flex-col items-center justify-center gap-1.5 overflow-hidden rounded-2xl bg-ink/90 text-cream/50 ${className}`}>
         <Video size={34} />
         <p className="text-xs font-semibold uppercase tracking-wide">Video coming soon</p>
       </div>

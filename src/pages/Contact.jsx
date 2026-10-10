@@ -39,10 +39,10 @@ export default function Contact() {
   ].filter((i) => i.value);
 
   return (
-    <section className="mx-auto max-w-6xl px-5 py-16 lg:px-8 lg:py-24">
+    <section className="mx-auto max-w-6xl px-5 py-10 lg:px-8 lg:py-14">
       <SectionHeading eyebrow="Reach Out" title="Contact Us" align="center" />
 
-      <div className="mt-14 grid gap-10 lg:grid-cols-2">
+      <div className="mt-8 grid gap-10 lg:grid-cols-2">
         <div className="space-y-4">
           {items.map(({ Icon, label, value, href }) => (
             <div key={label} className="flex items-start gap-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-ink/5">

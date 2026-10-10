@@ -14,3 +14,6 @@ export const youtubeEmbed = (id, autoplay = false) =>
   `https://www.youtube.com/embed/${id}?${autoplay ? "autoplay=1&" : ""}rel=0&modestbranding=1&playsinline=1`;
 
 export const isVideoFile = (url) => /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(url || "");
+
+// A sermon plays from its YouTube link, or an uploaded/other video link.
+export const sermonVideo = (s) => s?.youtube_url || s?.video_url || "";

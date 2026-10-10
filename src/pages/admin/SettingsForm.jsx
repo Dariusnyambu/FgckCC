@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
-import { friendlyError } from "../../lib/errors";
+import { friendlyError, reportDbError } from "../../lib/errors";
+import { clearContentCache } from "../../data/content";
 import { supabase, isSupabaseConfigured } from "../../lib/supabaseClient";
 import ImageUpload from "../../components/admin/ImageUpload";
 
@@ -33,12 +34,15 @@ export default function SettingsForm({ title, description, table, defaults = {},
     if (!isSupabaseConfigured) return setStatus({ ok: false, message: "Saving isn't available yet, the database connection hasn't been set up." });
     setSaving(true);
     setStatus(null);
-    const payload = { ...form, id: 1 };
-    delete payload.updated_at;
+    // Only the columns this page edits are sent, so a problem with an unrelated column cannot block saving.
+    const payload = { id: 1 };
+    sections.forEach((sec) => sec.fields.forEach((f) => { if (form[f.name] !== undefined) payload[f.name] = form[f.name]; }));
     const { error } = await supabase.from(table).upsert(payload);
+    if (error) reportDbError(`save ${table}`, error);
     setSaving(false);
     if (error) return setStatus({ ok: false, message: friendlyError(error.message) });
     setStatus({ ok: true, message: "Saved, changes are live on the website." });
+    clearContentCache();
     onSaved?.(payload);
   };
 

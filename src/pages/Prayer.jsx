@@ -31,7 +31,7 @@ export default function Prayer() {
   };
 
   return (
-    <section className="mx-auto max-w-2xl px-5 py-16 lg:px-8 lg:py-24">
+    <section className="mx-auto max-w-2xl px-5 py-10 lg:px-8 lg:py-14">
       <SectionHeading
         eyebrow="We're Praying With You"
         title="Submit a Prayer Request"
@@ -39,7 +39,7 @@ export default function Prayer() {
         align="center"
       />
 
-      <form onSubmit={onSubmit} className="mt-12 space-y-5 rounded-2xl bg-white p-8 shadow-sm ring-1 ring-ink/5">
+      <form onSubmit={onSubmit} className="mt-8 space-y-5 rounded-2xl bg-white p-8 shadow-sm ring-1 ring-ink/5">
         <label className="flex items-center gap-2 text-sm text-ink/70">
           <input type="checkbox" checked={form.anonymous} onChange={update("anonymous")} className="rounded border-ink/30" />
           Submit anonymously

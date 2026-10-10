@@ -1,14 +1,11 @@
-export default function SectionHeading({ eyebrow, title, description, align = "left" }) {
+export default function SectionHeading({ eyebrow, title, description, align = "left", tone = "dark" }) {
   const centered = align === "center";
+  const light = tone === "light";
   return (
-    <div className={`max-w-2xl ${centered ? "mx-auto text-center" : ""}`}>
-      {eyebrow && (
-        <div className={`mb-3 flex items-center gap-3 ${centered ? "justify-center" : ""}`}>
-          <p className="eyebrow text-crimson">{eyebrow}</p>
-        </div>
-      )}
-      <h2 className="font-display text-3xl font-extrabold leading-tight text-ink sm:text-4xl">{title}</h2>
-      {description && <p className="mt-3 text-ink/70">{description}</p>}
+    <div data-reveal className={`max-w-2xl ${centered ? "mx-auto text-center" : ""}`}>
+      {eyebrow && <p className={`eyebrow mb-2 ${light ? "text-gold" : "text-crimson"}`}>{eyebrow}</p>}
+      <h2 className={`font-display text-3xl font-extrabold leading-tight sm:text-4xl ${light ? "text-cream" : "text-ink"}`}>{title}</h2>
+      {description && <p className={`mt-2.5 ${light ? "text-cream/70" : "text-ink/70"}`}>{description}</p>}
     </div>
   );
 }

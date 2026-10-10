@@ -12,6 +12,7 @@ import {
   Users,
   Layers,
   MapPin,
+  UsersRound,
   ClipboardList,
   Radio,
   HeartHandshake,
@@ -48,13 +49,13 @@ const GROUPS = [
     items: [
       { to: "/admin/leadership", label: "Leadership", icon: Users },
       { to: "/admin/departments", label: "Departments", icon: Layers },
-      { to: "/admin/mini-churches", label: "Mini Churches", icon: MapPin },
+      { to: "/admin/mini-churches", label: "Mini-Church Groups", icon: UsersRound },
       { to: "/admin/service-sectors", label: "Service Sectors", icon: ClipboardList },
     ],
   },
   {
     label: "Live Service",
-    items: [{ to: "/admin/live-service", label: "Live Service Settings", icon: Radio }],
+    items: [{ to: "/admin/live-service", label: "Live Service & Schedule", icon: Radio }],
   },
   {
     label: "Communication",

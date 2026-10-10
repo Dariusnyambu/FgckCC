@@ -13,9 +13,9 @@ export default function Gallery() {
   }, []);
 
   return (
-    <section className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
+    <section className="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-14">
       <SectionHeading eyebrow="Moments" title="Church Gallery" align="center" />
-      <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {albums.map((a) => (
           <div key={a.id} className="group relative aspect-[4/3] overflow-hidden rounded-2xl bg-ink/5 ring-1 ring-ink/10">
             {a.cover_image ? (

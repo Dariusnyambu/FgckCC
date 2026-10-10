@@ -47,7 +47,7 @@ export default function BlogPost() {
   }
 
   return (
-    <article className="mx-auto max-w-3xl px-5 py-16 lg:px-8 lg:py-24">
+    <article className="mx-auto max-w-3xl px-5 py-10 lg:px-8 lg:py-14">
       <Link to="/blog" className="inline-flex items-center gap-1 text-sm font-semibold text-ink/60 hover:text-crimson">
         <ChevronLeft size={16} /> Back to Blog
       </Link>

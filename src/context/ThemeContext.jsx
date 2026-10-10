@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getSiteSettings } from "../data/content";
+import { getSiteSettings, peek } from "../data/content";
 
 const ThemeContext = createContext(null);
 
@@ -43,7 +43,7 @@ export function applyTheme(settings) {
 }
 
 export function ThemeProvider({ children }) {
-  const [settings, setSettings] = useState(null);
+  const [settings, setSettings] = useState(() => peek("site_settings"));
 
   useEffect(() => {
     getSiteSettings().then((s) => {

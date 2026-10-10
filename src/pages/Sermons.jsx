@@ -4,7 +4,8 @@ import SectionHeading from "../components/SectionHeading";
 import VideoPlayer from "../components/VideoPlayer";
 import { getSermons } from "../data/content";
 import { useSeo } from "../lib/useSeo";
-import { sermonVideo } from "../lib/serviceLinks";
+import { sermonVideo } from "../lib/youtube";
+
 
 export default function Sermons() {
   useSeo({
@@ -31,7 +32,7 @@ export default function Sermons() {
   );
 
   return (
-    <section className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
+    <section className="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-14">
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <SectionHeading eyebrow="The Word" title="Sermons" description="Watch right here on the site. No need to leave the page." />
         <div className="relative sm:w-72">

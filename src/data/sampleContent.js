@@ -64,6 +64,7 @@ export const leaders = [
     name: "Rev. Dr. John Kimani",
     position: "Senior Pastor",
     department: "Overall Leadership",
+    category: "pastoral_team",
     bio: "Rev. Dr. John Kimani leads FGCK Christ Centre with a heart for the gospel and a vision for raising servant leaders who carry the Kingdom image into every sphere of life.",
     image_url: "/images/pastor-john-kimani.jpg",
     order: 1,
@@ -74,6 +75,7 @@ export const leaders = [
     name: "Pst. Jane Kimani",
     position: "Assistant Pastor",
     department: "Pastoral Care",
+    category: "pastoral_team",
     bio: "Pst. Jane Kimani walks alongside the congregation in discipleship, pastoral care and women's ministry, shepherding the church family with grace and wisdom.",
     image_url: "/images/pastor-jane-kimani.jpg",
     order: 2,
@@ -186,26 +188,25 @@ export const blogPosts = [
   },
 ];
 
+// Mini-churches are GROUPS of members organised under a department (not physical locations).
 export const miniChurches = [
   {
-    id: "m1",
-    name: "Kasarani Mini Church",
-    location: "Kasarani, Nairobi",
-    leader_name: "Elder Peter Mwangi",
-    meeting: "Sundays · 9:00 AM",
-    members_count: 45,
-    description: "A growing fellowship serving the Kasarani neighbourhood under FGCK Christ Centre.",
-    published: true,
+    id: "m1", name: "Group A", group_label: "Group A", department_id: "d2",
+    description: "A small group of young people meeting for prayer, the Word and fellowship.",
+    meeting_day: "Saturday", meeting_time: "15:00", display_order: 1, published: true,
+    leaders: [{ full_name: "Group leader name", phone: "" }], member_count: 12,
   },
   {
-    id: "m2",
-    name: "Ruaka Mini Church",
-    location: "Ruaka, Kiambu",
-    leader_name: "Elder Grace Wambui",
-    meeting: "Sundays · 9:30 AM",
-    members_count: 30,
-    description: "A home-grown congregation extending the Christ Centre family into Ruaka.",
-    published: true,
+    id: "m2", name: "Group B", group_label: "Group B", department_id: "d2",
+    description: "A second youth group meeting midweek.",
+    meeting_day: "Wednesday", meeting_time: "18:30", display_order: 2, published: true,
+    leaders: [{ full_name: "Group leader name", phone: "" }], member_count: 9,
+  },
+  {
+    id: "m3", name: "Group C", group_label: "Group C", department_id: "d4",
+    description: "A group of women growing together in faith.",
+    meeting_day: "Saturday", meeting_time: "10:00", display_order: 3, published: true,
+    leaders: [{ full_name: "Group leader name", phone: "" }], member_count: 15,
   },
 ];
 
@@ -242,11 +243,26 @@ export const galleryAlbums = [
 ];
 
 export const liveServiceSettings = {
-  title: "Sunday Worship Service",
-  day_of_week: 0, // 0 = Sunday
+  title: "Sunday Main Service",
+  next_mode: "auto", // "auto" = next service comes from the weekly timetable, "manual" = a one-off service_date
+  service_date: null,
   start_time: "10:00",
-  end_time: "12:30",
+  end_time: "13:30",
   timezone: "Africa/Nairobi",
   streaming_url: "",
+  youtube_url: "",
+  facebook_url: "",
+  thumbnail_url: "",
+  description: "",
+  force_live: false,
   status: "scheduled",
 };
+
+// Weekly timetable (day_of_week: 0 = Sunday). Mirrors the seed data in migration 0005.
+export const serviceSchedule = [
+  ...[1, 2, 3, 4, 5].map((d) => ({ id: `ds${d}`, name: "Daily Prayers", day_of_week: d, start_time: "18:00", end_time: "19:00", recurrence: "weekly", week_of_month: null, timezone: "Africa/Nairobi", is_streamed: false, stream_url: "", display_order: 10 + d, is_active: true })),
+  { id: "sw", name: "Midweek Service", day_of_week: 3, start_time: "17:45", end_time: "19:30", recurrence: "weekly", week_of_month: null, timezone: "Africa/Nairobi", is_streamed: false, stream_url: "", display_order: 20, is_active: true },
+  { id: "sy", name: "Youth Service", day_of_week: 0, start_time: "08:00", end_time: "09:45", recurrence: "weekly", week_of_month: null, timezone: "Africa/Nairobi", is_streamed: false, stream_url: "", display_order: 30, is_active: true },
+  { id: "sm", name: "Main Service", day_of_week: 0, start_time: "10:00", end_time: "13:30", recurrence: "weekly", week_of_month: null, timezone: "Africa/Nairobi", is_streamed: false, stream_url: "", display_order: 40, is_active: true },
+  { id: "ww", name: "Worship Wednesday", day_of_week: 3, start_time: "17:45", end_time: "20:00", recurrence: "monthly_nth", week_of_month: 3, timezone: "Africa/Nairobi", is_streamed: false, stream_url: "", display_order: 50, is_active: true },
+];

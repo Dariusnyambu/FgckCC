@@ -1,5 +1,8 @@
 // Configuration for every list-style admin screen (rendered by CrudManager).
+// Mini-church groups have their own screen (AdminMiniChurches.jsx) because they need members and departments.
 // `published: true` in emptyDefaults means new items are visible straight away.
+import { LEADER_CATEGORY_OPTIONS } from "../../data/leadership.js";
+
 const pub = { published: true };
 
 export const CRUD_SECTIONS = [
@@ -21,7 +24,7 @@ export const CRUD_SECTIONS = [
     ],
   },
   {
-    path: "departments", title: "Departments", singular: "Department", table: "departments", orderBy: "display_order", emptyDefaults: pub,
+    path: "departments", title: "Departments", singular: "Department", table: "departments", orderBy: "display_order", orderAscending: true, emptyDefaults: pub,
     columns: ["name", "meeting_day", "meeting_time"],
     fields: [
       { name: "name", label: "Name", required: true },
@@ -36,22 +39,7 @@ export const CRUD_SECTIONS = [
     ],
   },
   {
-    path: "mini-churches", title: "Mini Churches", singular: "Mini Church", table: "mini_churches", orderBy: "display_order", emptyDefaults: pub,
-    columns: ["name", "location", "leader_name"],
-    fields: [
-      { name: "name", label: "Name", required: true },
-      { name: "location", label: "Location", required: true },
-      { name: "leader_name", label: "Leader Name" },
-      { name: "contact_phone", label: "Contact Phone" },
-      { name: "meeting", label: "Meeting Time" },
-      { name: "members_count", label: "Members Count", type: "number" },
-      { name: "display_order", label: "Display Order", type: "number" },
-      { name: "description", label: "Description", type: "textarea" },
-      { name: "image_url", label: "Photo", type: "image" },
-    ],
-  },
-  {
-    path: "service-sectors", title: "Service Sectors", singular: "Service Sector", table: "service_sectors", orderBy: "display_order", emptyDefaults: pub,
+    path: "service-sectors", title: "Service Sectors", singular: "Service Sector", table: "service_sectors", orderBy: "display_order", orderAscending: true, emptyDefaults: pub,
     columns: ["name", "coordinator_name", "meeting"],
     fields: [
       { name: "name", label: "Name", required: true },
@@ -80,7 +68,7 @@ export const CRUD_SECTIONS = [
     ],
   },
   {
-    path: "gallery", title: "Gallery Albums", singular: "Album", table: "gallery_albums", orderBy: "display_order", emptyDefaults: pub,
+    path: "gallery", title: "Gallery Albums", singular: "Album", table: "gallery_albums", orderBy: "display_order", orderAscending: true, emptyDefaults: pub,
     columns: ["title", "category", "display_order"],
     fields: [
       { name: "title", label: "Album Title", required: true },
@@ -90,13 +78,16 @@ export const CRUD_SECTIONS = [
     ],
   },
   {
-    path: "leadership", title: "Leadership", singular: "Leader", table: "leaders", orderBy: "order", emptyDefaults: pub,
-    columns: ["name", "position", "department"],
+    path: "leadership", title: "Leadership", singular: "Leader", table: "leaders", orderBy: "order", orderAscending: true, emptyDefaults: { ...pub, category: "pastoral_team" },
+    columns: ["name", "position", "category", "order"],
     fields: [
+      { name: "category", label: "Leadership tier", type: "select", options: LEADER_CATEGORY_OPTIONS, required: true, hint: "Decides where this person appears on the Leadership page." },
       { name: "name", label: "Full Name", required: true },
       { name: "position", label: "Position / Title", required: true },
-      { name: "department", label: "Department / Ministry" },
-      { name: "order", label: "Display Order", type: "number" },
+      { name: "department", label: "Department, sector or group" },
+      { name: "order", label: "Order within the tier", type: "number", hint: "1 appears first." },
+      { name: "phone", label: "Phone" },
+      { name: "email", label: "Email", type: "email" },
       { name: "facebook_url", label: "Facebook Link" },
       { name: "instagram_url", label: "Instagram Link" },
       { name: "bio", label: "Biography", type: "textarea" },

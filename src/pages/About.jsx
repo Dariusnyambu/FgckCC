@@ -27,7 +27,7 @@ export default function About() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-white py-16 lg:py-24">
+      <section className="relative overflow-hidden bg-white py-12 lg:py-16">
         <div className="rays pointer-events-none absolute inset-0" />
         <div className="relative mx-auto max-w-4xl px-5 text-center lg:px-8">
           <p className="eyebrow text-crimson">Our Story</p>
@@ -62,9 +62,9 @@ export default function About() {
       </section>
 
       {values.length > 0 && (
-        <section className="bg-ink py-16 text-cream lg:py-20">
+        <section className="bg-ink py-12 text-cream lg:py-14">
           <div className="mx-auto max-w-7xl px-5 lg:px-8">
-            <SectionHeading eyebrow="What We Value" title="Our Core Values" />
+            <SectionHeading eyebrow="What We Value" title="Our Core Values" tone="light" />
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {values.map((v, i) => (
                 <div key={v.title} className="rounded-2xl bg-cream/5 p-6 ring-1 ring-cream/10">

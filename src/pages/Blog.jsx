@@ -13,9 +13,9 @@ export default function Blog() {
   }, []);
 
   return (
-    <section className="mx-auto max-w-5xl px-5 py-16 lg:px-8 lg:py-24">
+    <section className="mx-auto max-w-5xl px-5 py-10 lg:px-8 lg:py-14">
       <SectionHeading eyebrow="Christian Living" title="Blogs & Articles" align="center" />
-      <div className="mt-14 space-y-6">
+      <div className="mt-8 space-y-6">
         {posts.map((p) => (
           <Link
             key={p.id}

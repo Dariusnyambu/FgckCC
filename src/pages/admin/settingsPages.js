@@ -1,5 +1,5 @@
 // Field definitions for the single-row settings screens (rendered by SettingsForm).
-import { siteSettings as siteDefaults, givingSettings as givingDefaults } from "../../data/sampleContent";
+import { siteSettings as siteDefaults, givingSettings as givingDefaults } from "../../data/sampleContent.js";
 
 export const SETTINGS_PAGES = [
   {

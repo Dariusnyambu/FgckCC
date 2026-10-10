@@ -11,10 +11,10 @@ export default function Footer() {
 
   return (
     <footer className="bg-ink text-cream/90">
-      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-16 lg:grid-cols-4 lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 lg:grid-cols-4 lg:px-8">
         <div>
           <div className="flex items-center gap-3">
-            <img src="/images/logo.png" alt="FGCK Christ Centre logo" className="h-12 w-12 rounded-full object-cover" />
+            <img src="/images/logo-sm.png" width="48" height="48" decoding="async" alt="FGCK Christ Centre logo" className="h-12 w-12 rounded-full object-cover" />
             <span className="font-display text-xl font-extrabold text-cream">FGCK Christ Centre</span>
           </div>
           <p className="mt-4 text-sm text-cream/60">
@@ -28,7 +28,7 @@ export default function Footer() {
           <ul className="mt-4 space-y-2 text-sm text-cream/70">
             <li><Link to="/about" className="hover:text-gold">About Us</Link></li>
             <li><Link to="/leadership" className="hover:text-gold">Leadership</Link></li>
-            <li><Link to="/mini-churches" className="hover:text-gold">Mini Churches</Link></li>
+            <li><Link to="/mini-churches" className="hover:text-gold">Mini-Churches</Link></li>
             <li><Link to="/service-sectors" className="hover:text-gold">Service Sectors</Link></li>
             <li><Link to="/sermons" className="hover:text-gold">Sermons</Link></li>
             <li><Link to="/blog" className="hover:text-gold">Christian Blogs</Link></li>

@@ -1,8 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { Plus, Trash2, Pencil, Loader2, Search, X, Eye, EyeOff } from "lucide-react";
-import { friendlyError } from "../../lib/errors";
+import { friendlyError, reportDbError } from "../../lib/errors";
 import { supabase, isSupabaseConfigured } from "../../lib/supabaseClient";
 import ImageUpload from "../../components/admin/ImageUpload";
+
+function cellText(value, field) {
+  if (value === null || value === undefined || value === "") return "-";
+  const opt = field?.options?.find((o) => typeof o === "object" && o.value === value);
+  return opt ? opt.label : String(value);
+}
 
 const NOT_CONNECTED = "Saving isn't available yet, the database connection hasn't been set up.";
 
@@ -10,7 +16,7 @@ const NOT_CONNECTED = "Saving isn't available yet, the database connection hasn'
  * Full list / search / add / edit / delete / publish-toggle screen for one table.
  * fields: [{ name, label, type: text|textarea|date|time|number|checkbox|image|select, options, required }]
  */
-export default function CrudManager({ title, singular, table, fields, columns, emptyDefaults = {}, orderBy = "created_at", hasPublished = true }) {
+export default function CrudManager({ title, singular, table, fields, columns, emptyDefaults = {}, orderBy = "created_at", orderAscending = false, hasPublished = true }) {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,8 +35,8 @@ export default function CrudManager({ title, singular, table, fields, columns, e
       return;
     }
     setLoading(true);
-    const { data, error } = await supabase.from(table).select("*").order(orderBy, { ascending: false });
-    if (error) setError(friendlyError(error.message));
+    const { data, error } = await supabase.from(table).select("*").order(orderBy, { ascending: orderAscending });
+    if (error) { reportDbError(`admin ${table} list`, error); setError(friendlyError(error.message)); }
     else setRows(data || []);
     setLoading(false);
   }
@@ -75,9 +81,17 @@ export default function CrudManager({ title, singular, table, fields, columns, e
     if (!isSupabaseConfigured) return setError(NOT_CONNECTED);
     setSaving(true);
     setError(null);
-    const payload = Object.fromEntries(
-      Object.entries(form).map(([k, v]) => [k, v === "" ? null : v])
-    );
+    // Blank number/text fields are left out on insert so database defaults apply (a blank "Display Order"
+    // used to be sent as null and rejected by the NOT NULL column). On edit, cleared text fields become NULL.
+    const numberFields = new Set(fields.filter((f) => f.type === "number").map((f) => f.name));
+    const payload = {};
+    for (const [k, v] of Object.entries(form)) {
+      if (v === "" || v === null || v === undefined) {
+        if (editingId && !numberFields.has(k)) payload[k] = null;
+        continue;
+      }
+      payload[k] = v;
+    }
     const { error } = editingId
       ? await supabase.from(table).update(payload).eq("id", editingId)
       : await supabase.from(table).insert(payload);
@@ -141,7 +155,7 @@ export default function CrudManager({ title, singular, table, fields, columns, e
                 ) : f.type === "select" ? (
                   <select required={f.required} value={form[f.name] ?? ""} onChange={(e) => setField(f.name, e.target.value)} className={input}>
                     <option value="">Select…</option>
-                    {f.options.map((o) => <option key={o} value={o}>{o}</option>)}
+                    {f.options.map((o) => { const v = typeof o === "object" ? o.value : o; const l = typeof o === "object" ? o.label : o; return <option key={v} value={v}>{l}</option>; })}
                   </select>
                 ) : (
                   <input type={f.type || "text"} required={f.required} value={form[f.name] ?? ""} onChange={(e) => setField(f.name, f.type === "number" ? (e.target.value === "" ? "" : Number(e.target.value)) : e.target.value)} className={input} />
@@ -188,7 +202,7 @@ export default function CrudManager({ title, singular, table, fields, columns, e
             <tbody>
               {filtered.map((row) => (
                 <tr key={row.id} className="border-b border-ink/5 last:border-0">
-                  {displayColumns.map((c) => <td key={c} className="max-w-[260px] truncate px-5 py-3 text-ink/80">{String(row[c] ?? "-")}</td>)}
+                  {displayColumns.map((c) => <td key={c} className="max-w-[260px] truncate px-5 py-3 text-ink/80">{cellText(row[c], fields.find((f) => f.name === c))}</td>)}
                   {hasPublished && (
                     <td className="px-5 py-3">
                       <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${row.published ? "bg-forest/10 text-forest" : "bg-ink/10 text-ink/50"}`}>
